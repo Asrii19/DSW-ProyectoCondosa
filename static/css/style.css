@@ -148,3 +148,61 @@ header {
     font-size: 14px;
   }
   
+  /* Estilos para la muestra de datos*/
+  .data-card{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  .data-item {
+    width: 300px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .delete-icon {
+    display: inline-block;
+    background-color: #ff6b6b;
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+  }
+  .delete-icon:visited {
+    text-decoration: none;
+  }
+  .delete-icon:hover {
+    background-color: #e85050;
+    color: #000;
+  }
+  
+  .delete-icon {
+    margin-right: 8px;
+  }
+  
+  .delete-icon i {
+    color: #fff;
+  }
+  
+
+  .hr-thick-black {
+    margin-top: 2rem;
+    border: none;
+    border-top: 8px solid #555;
+  }
+
+  #update-predio__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }

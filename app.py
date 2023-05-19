@@ -10,5 +10,6 @@ def crear_app():
     app.register_blueprint(inicio.bp)
     from routes import cotizar
     app.register_blueprint(cotizar.bp)
-    
+    from routes import vista
+    app.register_blueprint(vista.bp)
     return app

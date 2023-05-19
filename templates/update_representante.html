@@ -1,0 +1,33 @@
+{%extends 'base.html'%}
+{%block title%}Cotizar{%endblock%}
+{%block header%}
+    <h1>CONDOSA - Actualizar Representante</h1>
+{%endblock%}
+{%block content%}
+        <form action="{{url_for('vista.update_representante', id_representante=representante.id_presidente)}}" method="POST" id="update-predio__form">
+            <h2 class="title__form">Actualizar representante</h2>
+            <div  class="cuadro__form">
+                <div class="cuadro">
+                    <h3>Datos del representante</h3>
+                    <label for="update_documento">Documento de identidad:</label>
+                    <input type="text" id="update_documento" name="update_documento">
+                    
+                    <label for="update_apellidos">Apellidos:</label>
+                    <input type="text" id="update_apellidos" name="update_apellidos">
+                    
+                    <label for="update_nombres">Nombres:</label>
+                    <input type="text" id="update_nombres" name="update_nombres">
+                    
+                    <label for="update_predio">Nombre del predio:</label>
+                    <input type="text" id="update_predio" name="update_predio">
+                    
+                    <label for="update_telefono">Teléfono:</label>
+                    <input type="text" id="update_telefono" name="update_telefono">
+                    
+                    <label for="update_correo">Correo:</label>
+                    <input type="text" id="update_correo" name="update_correo">
+                </div>
+            </div>
+            <button type="submit" class="button__form" form="update-predio__form">Guardar datos</button>
+        </form>
+{%endblock%}

@@ -1,0 +1,47 @@
+{%extends 'base.html'%}
+{%block title%}Login{%endblock%}
+{%block header%}
+    <h1>CONDOSA - Vista</h1>
+{%endblock%}
+{%block content%}
+    <div class="data-section">
+      <hr class="hr-thick-black">
+      {% for representante, predio, contrato in data %}
+      <div class="delete-icon">
+        <a href="{{ url_for('vista.delete', id_representante=representante.id_presidente, id_predio=representante.id_predio, id_contrato=representante.id_contrato) }}"
+         class="btn btn-danger btn-sm rounded-0" class="delete-icon">Eliminar</a>
+        
+      </div>
+      <div class="data-card">
+        <div class="data-item">
+          <h2>Representante</h2>
+          <p>Nombre: {{ representante.nombre }}</p>
+          <p>Apellidos: {{ representante.apellidos }}</p>
+          <p>Predio asignado: {{ representante.predio_asignado }}</p>
+          <p>Teléfono: {{ representante.telefono }}</p>
+          <p>Correo: {{ representante.correo }}</p>
+          <a href="{{ url_for('vista.update_representante', id_representante=representante.id_presidente) }}" 
+          class="btn btn-danger btn-sm rounded-0" class="modify-icon">Modificar</a>
+        </div>
+
+        <div class="data-item">
+          <h2>Predio</h2>
+          <p>Área: {{ predio.area }}</p>
+          <p>Áreas comunes: {{ predio.areas_comunes }}</p>
+          <p>Nro Puertas de acceso: {{ predio.NroPuertasAcceso }}</p>
+          <p>Nro Habitaciones: {{ predio.NroHabitaciones }}</p>
+          <a href="{{ url_for('vista.update_predio', id_predio=representante.id_predio) }}" 
+          class="btn btn-danger btn-sm rounded-0" class="modify-icon">Modificar</a>
+        </div>
+
+        <div class="data-item">
+          <h2>Contrato</h2>
+          <p>Monto: {{ contrato.monto }}</p>
+          <p>Fecha: {{ contrato.fecha }}</p>
+          <p>Descripción: {{ contrato.descripcion }}</p>
+        </div>
+      </div>
+      <hr class="hr-thick-black">
+      {% endfor %}
+    </div>
+{%endblock%}

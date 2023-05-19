@@ -28,12 +28,12 @@ def add_cotizacion():
         area = request.form['area']
         areas_comunes = request.form['areascomunes']
         NroPuertasAcceso = request.form['NroPuertasAcceso']
-        NroBloques = request.form['NroBloques']
+        NroHabitaciones = request.form['NroHabitaciones']
         # datos del contrato
         total = request.form['total']
         fecha = datetime.now().date()
         # Crear un nuevo objeto Contact con los datos recibidos del formulario
-        new_predio = Predio(area,areas_comunes,NroPuertasAcceso,NroBloques)
+        new_predio = Predio(area,areas_comunes,NroPuertasAcceso,NroHabitaciones)
         new_contrato = Contrato(total,fecha)
         # Agregar el nuevo contacto a la base de datos y confirmar la operación
         db.session.add(new_predio) # agregación

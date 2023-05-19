@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template as rt, url_for
+from flask import Blueprint, render_template as rt
 
 bp = Blueprint('index', __name__) #al llamar el blue print en base sería (NomreBP.FuncionAsociadaARuta)
 
