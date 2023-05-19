@@ -1,0 +1,64 @@
+{%extends 'base.html'%}
+{%block title%}Cotizar{%endblock%}
+{%block header%}
+    <h1>CONDOSA - Cotizar</h1>
+{%endblock%}
+{%block content%}
+        <form action="/cotizar/new" method="POST" class="form__section" id="cotizar__form">
+            <h2 class="title__form">Cotización</h2>
+            <div  class="cuadro__form">
+                <div class="cuadro">
+                    <h3>Datos del representante</h3>
+                    <label for="documento">Documento de identidad:</label>
+                    <input type="text" id="documento" name="documento">
+                    
+                    <label for="apellidos">Apellidos:</label>
+                    <input type="text" id="apellidos" name="apellidos">
+                    
+                    <label for="nombres">Nombres:</label>
+                    <input type="text" id="nombres" name="nombres">
+                    
+                    <label for="predio">Nombre del predio:</label>
+                    <input type="text" id="predio" name="predio">
+                    
+                    <label for="telefono">Teléfono:</label>
+                    <input type="text" id="telefono" name="telefono">
+                    
+                    <label for="correo">Correo:</label>
+                    <input type="text" id="correo" name="correo">
+                </div>
+                
+                <div class="cuadro">
+                    <h3>Datos del predio</h3>
+                    <label for="area">Área:</label>
+                    <input type="text" id="area" name="area">
+                    
+                    <label for="areascomunes">Áreas comunes:</label>
+                    <input type="text" id="areascomunes" name="areascomunes">
+                    
+                    <label for="NroPuertasAcceso">Nro Puertas de acceso:</label>
+                    <input type="text" id="NroPuertasAcceso" name="NroPuertasAcceso">
+                    
+                    <label for="NroBloques">Nro de Bloques:</label>
+                    <input type="text" id="NroBloques" name="NroBloques">
+                </div>
+                    
+                <div class="cuadro">
+                    <h3>Cotizar personal</h3>
+                    <label for="limpieza">Personal de limpieza:</label>
+                    <input type="text" id="limpieza" name="limpieza">
+                    
+                    <label for="vigilante">Vigilante:</label>
+                    <input type="text" id="vigilante" name="vigilante">
+                    
+                    <label for="administrador">Administrador:</label>
+                    <input type="text" id="administrador" name="administrador">
+                    
+                    <label for="total">Total cotizado:</label>
+                    <input type="text" id="total" name="total">
+                </div>
+            </div>
+    
+            <button type="submit" class="button__form" form="cotizar__form">Aceptar cotización y contratar</button>
+        </form>
+{%endblock%}
