@@ -1,8 +1,10 @@
-from flask import Blueprint, render_template as rt, flash, redirect, url_for, request
+from flask import Blueprint, render_template as rt, flash, redirect, url_for, request, jsonify
 from models.contrato import Contrato
 from models.predio import Predio
 from models.presidentePredio import PresidentePredio
 from utils.db import db
+from utils.json import model_to_dict
+import json
 
 bp = Blueprint('vista', __name__, url_prefix="/vista") #al llamar el blue print en base sería (NomreBP.FuncionAsociadaARuta)
 
@@ -13,7 +15,26 @@ def vista(): #esta función debe coincidir con el url_for del html (base)
     predio = Predio.query.all()
     representante = PresidentePredio.query.all()
     data = zip(representante, predio, contrato)
-    return rt("vista.html",data=data) #El rendertemplate siempre buscará el archivo en templates
+
+    # Crear una lista para almacenar los datos convertidos a json
+    for obj1 in contrato:
+        data_contrato = model_to_dict(obj1)
+    for obj2 in predio:
+        data_predio = model_to_dict(obj2)
+    for obj3 in representante:
+        data_representante = model_to_dict(obj3)
+    
+    
+    result = {
+        'contrato': data_contrato,
+        'predio': data_predio,
+        'presidente_predio': data_representante
+    }
+
+    
+    
+    return jsonify(result)
+    #return rt("vista.html",data=data) #El rendertemplate siempre buscará el archivo en templates
 
 @bp.route("/update_predio/<string:id_predio>", methods=["GET", "POST"])
 def update_predio(id_predio):
