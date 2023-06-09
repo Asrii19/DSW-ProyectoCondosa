@@ -1,8 +1,6 @@
 from flask import Blueprint, render_template as rt, request, flash, redirect, url_for
 from utils.db import db
-from models.contrato import Contrato
 from models.predio import Predio
-from models.presidentePredio import PresidentePredio
 from datetime import datetime
 
 bp = Blueprint('cotizar', __name__,url_prefix="/cotizar")
@@ -13,7 +11,7 @@ def cotizar(): #esta función debe coincidir con el url_for
 
 
 # Crear una ruta que permita agregar un nuevo contacto a la base de datos
-@bp.route('/new', methods=['POST'])
+""" @bp.route('/new', methods=['POST'])
 def add_cotizacion():
     if request.method == 'POST':
         # OBTENER LOS DATOS DEL FORMULARIO ENVIADO
@@ -47,4 +45,4 @@ def add_cotizacion():
         flash('Operación realizada correctamente!')
 
         # Redirigir a la página principal
-        return redirect(url_for('cotizar.cotizar'))
+        return redirect(url_for('cotizar.cotizar')) """

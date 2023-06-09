@@ -1,42 +1,88 @@
 from flask import Blueprint, render_template as rt, flash, redirect, url_for, request, jsonify
-from models.contrato import Contrato
+from models.persona import Persona
+from models.personal import Personal
 from models.predio import Predio
-from models.presidentePredio import PresidentePredio
+from models.rol import Rol
+from models.servicio import Servicio
+from models.solicitante import Solicitante
+from models.solicitud import Solicitud
+from models.solicitudCotizacion import SolicitudCotizacion
+from models.tipoDocumento import TipoDocumento
+from models.tipoPredio import TipoPredio
+from models.ubigeo import Ubigeo
+
 from utils.db import db
 from utils.json import model_to_dict
-import json
 
 bp = Blueprint('vista', __name__, url_prefix="/vista") #al llamar el blue print en base sería (NomreBP.FuncionAsociadaARuta)
 
 @bp.route('/')
 def vista(): #esta función debe coincidir con el url_for del html (base)
-    data=[]
-    contrato = Contrato.query.all()
-    predio = Predio.query.all()
-    representante = PresidentePredio.query.all()
-    data = zip(representante, predio, contrato)
+    persona =Persona.query.all()
+    personal =Personal.query.all()
+    predio =Predio.query.all()
+    rol =Rol.query.all()
+    servicio =Servicio.query.all()
+    solicitante =Solicitante.query.all()
+    solicitud =Solicitud.query.all()
+    solicitudCotizacion =SolicitudCotizacion.query.all()
+    tipoDocumento =TipoDocumento.query.all()
+    tipoPredio =TipoPredio.query.all()
+    ubigeo =Ubigeo.query.all()
+
+    data_persona = []
+    data_personal = []
+    data_predio = []
+    data_rol = []
+    data_servicio = []
+    data_solicitante = []
+    data_solicitud = []
+    data_solicitudCotizacion = []
+    data_tipoDocumento = []
+    data_tipoPredio = []
+    data_ubigeo = []
 
     # Crear una lista para almacenar los datos convertidos a json
-    for obj1 in contrato:
-        data_contrato = model_to_dict(obj1)
-    for obj2 in predio:
-        data_predio = model_to_dict(obj2)
-    for obj3 in representante:
-        data_representante = model_to_dict(obj3)
-    
+    for obj in persona:
+        data_persona = model_to_dict(obj)
+    for obj in personal:
+        data_personal = model_to_dict(obj)
+    for obj in predio:
+        data_predio = model_to_dict(obj)
+    for obj in rol:
+        data_rol = model_to_dict(obj)
+    for obj in servicio:
+        data_servicio = model_to_dict(obj)
+    for obj in solicitante:
+        data_solicitante = model_to_dict(obj)
+    for obj in solicitud:
+        data_solicitud = model_to_dict(obj)
+    for obj in solicitudCotizacion:
+        data_solicitudCotizacion = model_to_dict(obj)
+    for obj in tipoDocumento:
+        data_tipoDocumento = model_to_dict(obj)
+    for obj in tipoPredio:
+        data_tipoPredio = model_to_dict(obj)
+    for obj in ubigeo:
+        data_ubigeo = model_to_dict(obj)
     
     result = {
-        'contrato': data_contrato,
+        'persona': data_persona,
+        'personal': data_personal,
         'predio': data_predio,
-        'presidente_predio': data_representante
+        'rol': data_rol,
+        'servicio': data_servicio,
+        'solicitante': data_solicitante,
+        'solicitud': data_solicitud,
+        'solicitudCotizacion': data_solicitudCotizacion,
+        'tipoDocumento': data_tipoDocumento,
+        'tipoPredio': data_tipoPredio,
+        'ubigeo': data_ubigeo
     }
 
-    
-    
     return jsonify(result)
-    #return rt("vista.html",data=data) #El rendertemplate siempre buscará el archivo en templates
 
-@bp.route("/update_predio/<string:id_predio>", methods=["GET", "POST"])
+""" @bp.route("/update_predio/<string:id_predio>", methods=["GET", "POST"])
 def update_predio(id_predio):
     # Obtener la data correspondiente al id recibido como argumento
     predio = Predio.query.get(id_predio)
@@ -99,4 +145,4 @@ def delete(id_representante, id_predio, id_contrato):
     flash('Datos eliminados correctamente!')
 
     # Redirigir a la página principal
-    return redirect(url_for('vista.vista'))
+    return redirect(url_for('vista.vista')) """
