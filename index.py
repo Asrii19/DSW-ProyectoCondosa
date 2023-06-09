@@ -1,5 +1,5 @@
 from app import crear_app
-from src.db import db
+from utils.db import db
 
 app = crear_app()
 

@@ -1,4 +1,4 @@
-from src.db import db
+from utils.db import db
 
 class PresidentePredio(db.Model):
     id_presidente = db.Column(db.Integer, primary_key=True, autoincrement=True)

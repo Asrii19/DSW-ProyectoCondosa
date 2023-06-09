@@ -1,4 +1,4 @@
-from src.db import db
+from utils.db import db
 
 class Predio(db.Model):
     id_predio = db.Column(db.Integer, primary_key=True, autoincrement=True)

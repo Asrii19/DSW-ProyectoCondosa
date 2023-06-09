@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template as rt, request, flash, redirect, url_for
-from src.db import db
+from utils.db import db
 from models.contrato import Contrato
 from models.predio import Predio
 from models.presidentePredio import PresidentePredio

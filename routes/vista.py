@@ -2,7 +2,7 @@ from flask import Blueprint, render_template as rt, flash, redirect, url_for, re
 from models.contrato import Contrato
 from models.predio import Predio
 from models.presidentePredio import PresidentePredio
-from src.db import db
+from utils.db import db
 
 bp = Blueprint('vista', __name__, url_prefix="/vista") #al llamar el blue print en base sería (NomreBP.FuncionAsociadaARuta)
 
