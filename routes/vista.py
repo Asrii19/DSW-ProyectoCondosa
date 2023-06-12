@@ -44,27 +44,37 @@ def vista(): #esta función debe coincidir con el url_for del html (base)
 
     # Crear una lista para almacenar los datos convertidos a json
     for obj in persona:
-        data_persona = model_to_dict(obj)
+        x = model_to_dict(obj)
+        data_persona.append(x)
     for obj in personal:
-        data_personal = model_to_dict(obj)
+        x = model_to_dict(obj)
+        data_personal.append(x)
     for obj in predio:
-        data_predio = model_to_dict(obj)
+        x = model_to_dict(obj)
+        data_predio.append(x)
     for obj in rol:
-        data_rol = model_to_dict(obj)
+        x = model_to_dict(obj)
+        data_rol.append(x)
     for obj in servicio:
-        data_servicio = model_to_dict(obj)
+        x = model_to_dict(obj)
+        data_servicio.append(x)
     for obj in solicitante:
-        data_solicitante = model_to_dict(obj)
+        x = model_to_dict(obj)
+        data_solicitante.append(x)
     for obj in solicitud:
-        data_solicitud = model_to_dict(obj)
+        x = model_to_dict(obj)
+        data_solicitud.append(x)
     for obj in solicitudCotizacion:
-        data_solicitudCotizacion = model_to_dict(obj)
+        x = model_to_dict(obj)
+        data_solicitudCotizacion.append(x)
     for obj in tipoDocumento:
-        data_tipoDocumento = model_to_dict(obj)
+        x = model_to_dict(obj)
+        data_tipoDocumento.append(x)
     for obj in tipoPredio:
-        data_tipoPredio = model_to_dict(obj)
+        x = model_to_dict(obj)
+        data_tipoPredio.append(x)
     for obj in ubigeo:
-        data_ubigeo = model_to_dict(obj)
+        data_ubigeo=model_to_dict(obj)
     
     result = {
         'persona': data_persona,
@@ -80,6 +90,94 @@ def vista(): #esta función debe coincidir con el url_for del html (base)
         'ubigeo': data_ubigeo
     }
 
+    return jsonify(result)
+
+@bp.route('/predio')
+def vista_predio():
+    query =Predio.query.all()
+    data = []
+    for obj in query:
+        data.append(model_to_dict(obj))
+    result = {
+        'predio': data
+    }
+    return jsonify(result)
+
+@bp.route('/persona')
+def vista_persona():
+    query =Persona.query.all()
+    data = []
+    for obj in query:
+        data.append(model_to_dict(obj))
+    result = {
+        'persona': data
+    }
+    return jsonify(result)
+
+@bp.route('/personal')
+def vista_personal():
+    query =Personal.query.all()
+    data = []
+    for obj in query:
+        data.append(model_to_dict(obj))
+    result = {
+        'personal': data
+    }
+    return jsonify(result)
+
+@bp.route('/solicitante')
+def vista_solicitante():
+    query =Solicitante.query.all()
+    data = []
+    for obj in query:
+        data.append(model_to_dict(obj))
+    result = {
+        'solicitante': data
+    }
+    return jsonify(result)
+
+@bp.route('/servicio')
+def vista_servicio():
+    query =Servicio.query.all()
+    data = []
+    for obj in query:
+        data.append(model_to_dict(obj))
+    result = {
+        'servicio': data
+    }
+    return jsonify(result)
+
+@bp.route('/rol')
+def vista_rol():
+    query =Rol.query.all()
+    data = []
+    for obj in query:
+        data.append(model_to_dict(obj))
+    result = {
+        'rol': data
+    }
+    return jsonify(result)
+
+@bp.route('/solicitud')
+def vista_solicitud():
+    query =Solicitud.query.all()
+    data = []
+    for obj in query:
+        data.append(model_to_dict(obj))
+    result = {
+        'solicitud': data
+    }
+    return jsonify(result)
+
+@bp.route('/solicitud_cotizacion')
+def vista_solicitud_cotizacion():
+    query =SolicitudCotizacion.query.all()
+    data = []
+    for obj in query:
+        data.append(model_to_dict(obj))
+    result = {
+        'solicitud_cotizacion': data
+    }
     return jsonify(result)
 
 """ @bp.route("/update_predio/<string:id_predio>", methods=["GET", "POST"])
