@@ -1,4 +1,5 @@
 from utils.db import db
+from utils.db import db
 
 class Solicitante(db.Model):
     id_solicitante = db.Column(db.Integer, primary_key=True)
