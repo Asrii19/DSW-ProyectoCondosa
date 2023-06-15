@@ -1,0 +1,43 @@
+.container-form{
+    display: flex;
+    padding-top: 100px;
+    z-index: 300;
+    align-items: center;
+    flex-direction: column;
+}
+.form-apartado{
+    min-width: 100%;
+    border-top: 1px solid #dbdbdb;
+    border-bottom: 1px solid #dbdbdb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.form-apartado .apartado-titulo{
+    color: #ffffff;
+    text-align: center;
+    padding: 10px;
+    padding-top: 20px;
+}
+.form-apartado .textInput{
+    width: 50%;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    align-items: center;
+}
+.container-form .textInput input, .container-form .textInput label{
+    min-width: 50%;
+    background: none;
+    color: #ffffff;
+    padding-top: 20px;
+    border: none;
+    outline: 0px;
+    font-size: 17px;
+}
+.container-form .textInput input{
+    border-bottom: 3px solid #c7c7c7;
+}
+
