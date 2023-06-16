@@ -94,6 +94,7 @@
                             </a>
                             <form class="btn_download" action="{{ url_for('boleta.generar_pdf') }}" method="POST">
                                 <button type="submit" class="button is-link is-small" data-toggle="tooltip" title="Descargar boleta">
+                                    <input type="hidden" name="descargar__id_solicitud" value="{{ cotizacion.id_solicitud }}">
                                     <span class="material-icons">
                                         download
                                     </span>
