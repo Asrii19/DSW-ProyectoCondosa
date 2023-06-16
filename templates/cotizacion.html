@@ -75,16 +75,40 @@
         </div>
         <div class="textInput">
             <label class="input__lbl">
+                <span class="txt-lbl">Cantidad de administracion: </span>
+            </label>
+            <input type="text" name="cant_administracion" required value="{{ data.cant_administracion }}" readonly>
+        </div>
+        <div class="textInput">
+            <label class="input__lbl">
                 <span class="txt-lbl">Cantidad de personal de limpieza: </span>
             </label>
-            <input type="text" name="cant_pers_limpieza" required value="{{ data.cant_plimpieza }}" readonly>
+            <input type="text" name="cant_plimpieza" required value="{{ data.cant_plimpieza }}" readonly>
+        </div>
+        <div class="textInput">
+            <label class="input__lbl">
+                <span class="txt-lbl">Cantidad de jardineros: </span>
+            </label>
+            <input type="text" name="cant_jardineria" required value="{{ data.cant_jardineria }}" readonly>
         </div>
         <div class="textInput">
             <label class="input__lbl">
                 <span class="txt-lbl">Cantidad de vigilantes: </span>
             </label>
-            <input type="text" name="tipo_servicio" required value="{{ data.cant_vigilantes }}" readonly>
+            <input type="text" name="cant_vigilantes" required value="{{ data.cant_vigilantes }}" readonly>
         </div>
+
+        {% if cotizacion_realizada == "Realizada" %}
+        
+        <div class="textInput">
+            <label class="input__lbl">
+                <span class="txt-lbl">Importe: </span>
+            </label>
+            <input type="text" name="importe" required value="{{ data.importe }}" readonly>
+        </div>
+
+        {% endif %}
+
     </div>
 </form>
   

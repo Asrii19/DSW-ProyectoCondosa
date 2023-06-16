@@ -30,3 +30,9 @@ body{
 .tabla-cotizaciones td {
   text-align: center !important;
 }
+
+.button-container {
+  display: flex; /* Activa el flexbox */
+  justify-content: center; /* Centra horizontalmente los elementos en el contenedor */
+  align-items: center; /* Centra verticalmente los elementos en el contenedor */
+}

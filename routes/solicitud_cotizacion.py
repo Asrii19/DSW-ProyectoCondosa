@@ -6,13 +6,13 @@ from models.rol import Rol
 from models.predio import Predio
 from models.tipoPredio import TipoPredio
 from models.servicio import Servicio
+from models.solicitudCotizacion import SolicitudCotizacion
 
 bp = Blueprint('solicitud_cotizacion', __name__, url_prefix="/solicitud") #al llamar el blue print en base sería (NomreBP.FuncionAsociadaARuta)
 
-@bp.route('/')
-def cotizar():
-    id_solicitud = 2
-    cotizacion_confirmada = False
+@bp.route('/<id_solicitud>/<estado>', methods=['GET'])
+def cotizar(id_solicitud,estado):
+    cotizacion_realizada = estado
 
     solicitud = Solicitud.query.get(id_solicitud)
     solicitante = Solicitante.query.get(solicitud.id_solicitante)
@@ -21,6 +21,7 @@ def cotizar():
     predio = Predio.query.get(solicitud.id_predio)
     tipo_predio = TipoPredio.query.get(predio.id_tipo_predio)
     servicio = Servicio.query.get(solicitud.id_servicio)
+    solicitud_cotizacion = SolicitudCotizacion.query.get(solicitud.id_solicitud)
     data = {
         "id_solicitud": solicitud.id_solicitud,
         "id_solicitante": solicitud.id_solicitante,
@@ -40,7 +41,12 @@ def cotizar():
         "ruc_predio": predio.ruc,
         #informacion de los servicios
         "tipo_servicio": servicio.descripcion,
+        "cant_administracion": solicitud.cant_administracion,
         "cant_plimpieza": solicitud.cant_plimpieza,
+        "cant_jardineria": solicitud.cant_jardineria,
         "cant_vigilantes": solicitud.cant_vigilantes,
     }
-    return rt("cotizacion.html",data=data,cotizacion_confirmada=cotizacion_confirmada)
+    if cotizacion_realizada == "Realizada":
+        data["importe"] = solicitud_cotizacion.importe
+    
+    return rt("cotizacion.html",data=data,cotizacion_realizada=cotizacion_realizada)

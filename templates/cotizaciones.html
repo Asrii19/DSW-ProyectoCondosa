@@ -3,7 +3,8 @@
 
 {% block content %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma-rtl.min.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="{{url_for('static',filename='css/components/cotizaciones.css')}}">
 
@@ -15,7 +16,8 @@
         <div class="tabs">
             <ul>
                 <li class="is-active">
-                    <a id="pendientes-tab" class="is-active" onclick="mostrarTabla('pendientes')">Cotizaciones Pendientes</a>
+                    <a id="pendientes-tab" class="is-active" onclick="mostrarTabla('pendientes')">Cotizaciones
+                        Pendientes</a>
                 </li>
                 <li>
                     <a id="completadas-tab" onclick="mostrarTabla('completadas')">Cotizaciones Completadas</a>
@@ -42,16 +44,15 @@
                         <td>{{ solicitudp.id_solicitud }}</td>
                         <td>{{ solicitudp.descripcion_predio }}</td>
                         <td>{{ solicitudp.nombre_solicitante }}</td>
-                        <td>{{  solicitudp.descripcion_servicio }}</td>
+                        <td>{{ solicitudp.descripcion_servicio }}</td>
                         <td>
-                            <button class="button is-link is-small" data-toggle="tooltip" title="Ver Detalles">
+                            <a href="{{ url_for('solicitud_cotizacion.cotizar', id_solicitud=solicitudp.id_solicitud, estado="Pendiente") }}" class="button is-link is-small" data-toggle="tooltip" title="Ver Detalles">
                                 <span class="material-icons">
                                     visibility
                                 </span>
-                            </button>
-                            
-
-                            <button class="button is-link is-small" data-toggle="tooltip" title="Cotizar">
+                            </a>
+                            <button class="button is-link is-small" data-toggle="tooltip" title="Cotizar"
+                                onclick="mostrarPopup('popup-{{ solicitudp.id_solicitud }}')">
                                 <span class="material-icons">
                                     monetization_on
                                 </span>
@@ -86,7 +87,12 @@
                         <td>{{ cotizacion.importe }}</td>
                         <td>Completado</td>
                         <td>
-                            <button class="button is-link is-small" data-toggle="tooltip" title="Ver cotizacion">
+                            <a href="{{ url_for('solicitud_cotizacion.cotizar', id_solicitud=cotizacion.id_solicitud, estado="Realizada") }}" class="button is-link is-small" data-toggle="tooltip" title="Ver Detalles">
+                                <span class="material-icons">
+                                    visibility
+                                </span>
+                            </a>
+                            <button class="button is-link is-small" data-toggle="tooltip" title="Descargar boleta">
                                 <span class="material-icons">
                                     download
                                 </span>
@@ -99,6 +105,139 @@
         </div>
     </div>
 </div>
+
+
+<!-- Popup de Cotización -->
+{% for solicitudp in cotizaciones_pendientes %}
+<div id="popup-{{ solicitudp.id_solicitud }}" class="modal">
+    <div class="modal-background" onclick="cerrarPopup('popup-{{ solicitudp.id_solicitud }}')"></div>
+    <div class="modal-content">
+        <div class="box">
+            <button class="delete is-pulled-right"
+                onclick="cerrarPopup('popup-{{ solicitudp.id_solicitud }}')"></button>
+            <h2 class="title is-4">Cotización - {{ solicitudp.id_solicitud }}</h2>
+            <!-- Aquí puedes agregar el contenido del formulario de cotización -->
+            {% if solicitudp.id_servicio == 1 %}
+            <div class="formulario-cotizacion">
+                <h3 class="subtitle is-5">Cantidad de vigilantes</h3>
+                <div class="field">
+                    <label class="label">Cantidad : {{ solicitudp.cant_vigilantes}} </label>
+                </div>
+                <div class="field">
+                    <label class="label">Importe</label>
+                    <div class="control">
+                        <input class="input" type="text" placeholder="Ingrese el importe">
+                    </div>
+                </div>
+
+
+                <h3 class="subtitle is-5">Cantidad de Personal de limpieza</h3>
+                <div class="field">
+                    <label class="label">Cantidad : {{ solicitudp.cant_plimpieza}}</label>
+                </div>
+                <div class="field">
+                    <label class="label">Importe</label>
+                    <div class="control">
+                        <input class="input" type="text" placeholder="Ingrese el importe">
+                    </div>
+                </div>
+
+                <h3 class="subtitle is-5">Cantidad de administrador/es</h3>
+                <div class="field">
+                    <label class="label">Cantidad : {{ solicitudp.cant_administracion}}</label>
+                </div>
+                <div class="field">
+                    <label class="label">Importe</label>
+                    <div class="control">
+                        <input class="input" type="text" placeholder="Ingrese el importe">
+                    </div>
+                </div>
+
+                <h3 class="subtitle is-5">Cantidad de jardineros</h3>
+                <div class="field">
+                    <label class="label">Cantidad : {{ solicitudp.cant_jardineria}}</label>
+                </div>
+                <div class="field">
+                    <label class="label">Importe</label>
+                    <div class="control">
+                        <input class="input" type="text" placeholder="Ingrese el importe">
+                    </div>
+                </div>
+
+                <h3 class="subtitle is-5">Importe total:</h3>
+                <div class="field">
+                    <label class="label">Importe total</label>
+                    <div class="control">
+                        <input class="input" type="text" placeholder="Ingrese el importe total">
+                    </div>
+                </div>
+            </div>
+            {% elif solicitudp.id_servicio == 2 %}
+            <div class="formulario-cotizacion">
+                <h3 class="subtitle is-5">Cantidad de personal de limpieza</h3>
+                <div class="field">
+                    <label class="label">Cantidad : {{ solicitudp.cant_plimpieza}}</label>
+                </div>
+                <div class="field">
+                    <label class="label">Importe</label>
+                    <div class="control">
+                        <input class="input" type="text" placeholder="Ingrese el importe">
+                    </div>
+                </div>
+            </div>
+            {% elif solicitudp.id_servicio == 3 %}
+            <div class="formulario-cotizacion">
+                <h3 class="subtitle is-5">Cantidad de jardineros</h3>
+                <div class="field">
+                    <label class="label">Cantidad : {{ solicitudp.cant_jardineria}}</label>
+                </div>
+                <div class="field">
+                    <label class="label">Importe</label>
+                    <div class="control">
+                        <input class="input" type="text" placeholder="Ingrese el importe">
+                    </div>
+                </div>
+            </div>
+            {% elif solicitudp.id_servicio == 4 %}
+            <div class="formulario-cotizacion">
+                <h3 class="subtitle is-5">Cantidad de vigilantes</h3>
+                <div class="field">
+                    <label class="label">Cantidad : {{ solicitudp.cant_vigilantes}} </label>
+                </div>
+                <div class="field">
+                    <label class="label">Importe</label>
+                    <div class="control">
+                        <input class="input" type="text" placeholder="Ingrese el importe">
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Botones de Aceptar y Rechazar -->
+            <div class="buttons button-container">
+                <button class="button is-link is-small"
+                    onclick="aceptarCotizacion('{{ solicitudp.id_solicitud }}')" 
+                    style="margin-right: 10px; margin-top: 10px;">
+                    <span class="material-icons">
+                        done
+                    </span>
+                    Aceptar
+                </button>
+                <button class="button is-danger is-small" onclick="rechazarCotizacion('{{ solicitudp.id_solicitud }}')"
+                    style="margin-left: 10px; margin-top: 10px;">
+                    <span class="material-icons">
+                        clear
+                    </span>
+                    Rechazar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+
 
 <script>
     function mostrarTabla(tab) {
@@ -114,6 +253,30 @@
             document.getElementById('completadas-tab').classList.add('is-active');
         }
     }
+
+    function mostrarPopup(popupId) {
+        var popup = document.getElementById(popupId);
+        popup.classList.add("is-active");
+    }
+
+    function cerrarPopup(popupId) {
+        var popup = document.getElementById(popupId);
+        popup.classList.remove("is-active");
+    }
+
+    // Función para aceptar la cotización
+    function aceptarCotizacion(idSolicitud) {
+        // Lógica para aceptar la cotización con el ID de solicitud proporcionado
+        console.log("Cotización aceptada. ID de Solicitud: " + idSolicitud);
+        console.log(importeJardineros);
+    }
+
+    // Función para rechazar la cotización
+    function rechazarCotizacion(idSolicitud) {
+        // Lógica para rechazar la cotización con el ID de solicitud proporcionado
+        console.log("Cotización rechazada. ID de Solicitud: " + idSolicitud);
+    }
+
 
 </script>
 
