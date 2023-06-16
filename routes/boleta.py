@@ -33,8 +33,7 @@ def generar_pdf():
     buffer.seek(0)  # Restablecer el puntero del buffer al principio
     response = make_response(buffer.getvalue())
     response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'attachment; filename=archivo.pdf'
-
+    response.headers['Content-Disposition'] = f'attachment; filename=archivo-id{id_solicitud}.pdf'
     return response
 
 # ENCABEZADO
@@ -55,12 +54,36 @@ def dibujar_encabezado(pdf):
 
 # BODY
 def dibujar_body(pdf,id_solicitud):
-    pdf.setFont("Helvetica-Bold", 14)
-    # Agregar texto al lienzo
-    pdf.drawString(100, 750, f"Hola, este es un PDF generado dinámicamente {id_solicitud}.")
-
     data = obtener_data(id_solicitud)
+    generar_infoSolicitante(pdf,data)
     generar_tabla(pdf,data)
+
+def generar_infoSolicitante(pdf,data):
+    # Obtener datos del solicitante
+    nombre = data["nombres_apellido"]
+    nro_documento = data["ndocumento"]
+    predio = data["nombre_predio"]
+    cargo = data["rol"]
+    correo = data["correo"]
+    telefono = data["telefono"]
+    print(telefono)
+    pdf.setFont("Helvetica", 12)
+    pdf.setFillColor(colors.red)  # Establecer color rojo para el nombre
+    pdf.drawString(100, 730, "Nombre:")
+    pdf.drawString(100, 710, "Nro documento:")
+    pdf.drawString(100, 690, "Predio:")
+    pdf.drawString(300, 730, "Rol:")
+    pdf.drawString(300, 710, "Correo:")
+    pdf.drawString(300, 690, "Telefono:")
+    pdf.setFillColor(colors.black)  # Restablecer color negro para los siguientes textos
+    pdf.drawString(170, 730, nombre)
+    pdf.drawString(190, 710, nro_documento) 
+    pdf.drawString(170, 690, predio)
+    pdf.drawString(370, 730, cargo)
+    pdf.drawString(370, 710, correo)
+    pdf.drawString(370, 690, str(telefono))
+
+    
 
 #generar tabla del body
 def generar_tabla(pdf,data):
@@ -106,7 +129,7 @@ def generar_tabla(pdf,data):
     data = zip(lista1, lista2, lista3, lista4)
     # Construye la estructura de datos para la tabla
     table_data = [
-        ['Id_Servicio', 'Descripción', 'Cantidad', 'Monto (S/)'],  # Nombres de las columnas
+        ['Nro Servicio', 'Descripción', 'Cantidad', 'Monto (S/)'],  # Nombres de las columnas
     ]
     # Agrega las filas de datos a la estructura de la tabla
     for row in data:
@@ -129,7 +152,7 @@ def generar_tabla(pdf,data):
     ]))
     
     table.wrapOn(pdf, 400, 500)
-    table.drawOn(pdf, 100, 600-table._height)
+    table.drawOn(pdf, 100, 650-table._height)
 
 #obtener la data para imprimirla
 def obtener_data(id_solicitud):
@@ -154,6 +177,7 @@ def obtener_data(id_solicitud):
         "ndocumento": persona.ndocumento,
         "rol": rol.descripcion,
         "correo": solicitante.correo,
+        "telefono": solicitante.telefono,
         #informacion del predio
         "nombre_predio": predio.descripcion,
         "direccion_predio": predio.direccion,
