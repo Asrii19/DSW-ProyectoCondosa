@@ -5,6 +5,3 @@ bp = Blueprint('principal', __name__, url_prefix="/principal") #al llamar el blu
 @bp.route('/')
 def principal():
     return rt("principal.html")
-@bp.route('/')
-def principal():
-    return rt("principal.html")

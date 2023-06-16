@@ -103,6 +103,17 @@ def vista_predio():
     }
     return jsonify(result)
 
+@bp.route('/tipo_predio')
+def vista_tipo_predio():
+    query =TipoPredio.query.all()
+    data = []
+    for obj in query:
+        data.append(model_to_dict(obj))
+    result = {
+        'tipo_predio': data
+    }
+    return jsonify(result)
+
 @bp.route('/persona')
 def vista_persona():
     query =Persona.query.all()

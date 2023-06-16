@@ -8,67 +8,82 @@
 
 <!--Formulario-->
 <form class="container-form" method="POST" action="{{ url_for('index.index') }}">
-    <div class="form-apartado">
+    <!--INFO PERSONAL-->
+    <div class="form-apartado" id="info_personal">
         <div class="apartado-titulo">INFORMACIÓN PERSONAL</div>
         <div class="textInput">
             <label class="input__lbl">
                 <span class="txt-lbl">Nombre: </span>
             </label>
-            <input type="text" name="nombre" required value="a" readonly>
+            <input type="text" name="nombre" required value="{{ data.nombres_apellido }}" readonly>
+        </div>
+        <div class="textInput">
+            <label class="input__lbl">
+                <span class="txt-lbl">Número de documento: </span>
+            </label>
+            <input type="text" name="nrodocumento" required value="{{ data.ndocumento }}" readonly>
         </div>
         <div class="textInput">
             <label class="input__lbl">
                 <span class="txt-lbl">Rol: </span>
             </label>
-            <input type="text" name="rol" required value="a" readonly>
+            <input type="text" name="rol" required value="{{ data.rol }}" readonly>
+        </div>
+        <div class="textInput">
+            <label class="input__lbl">
+                <span class="txt-lbl">Correo: </span>
+            </label>
+            <input type="text" name="correo" required value="{{ data.correo }}" readonly>
         </div>
     </div>
-    <div class="form-apartado">
+    <!--PREDIO-->
+    <div class="form-apartado" id="info_predio">
         <div class="apartado-titulo">INFORMACIÓN DEL PREDIO</div>
         <div class="textInput">
             <label class="input__lbl">
                 <span class="txt-lbl">Nombre: </span>
             </label>
-            <input type="text" name="nombre" required value="a" readonly>
+            <input type="text" name="nombre_predio" required value="{{ data.nombre_predio }}" readonly>
         </div>
         <div class="textInput">
             <label class="input__lbl">
-                <span class="txt-lbl">Rol: </span>
+                <span class="txt-lbl">Dirección: </span>
             </label>
-            <input type="text" name="rol" required value="a" readonly>
+            <input type="text" name="direccion_predio" required value="{{ data.direccion_predio }}" readonly>
+        </div>
+        <div class="textInput">
+            <label class="input__lbl">
+                <span class="txt-lbl">Tipo de predio: </span>
+            </label>
+            <input type="text" name="tipo_predio" required value="{{ data.tipo_predio }}" readonly>
+        </div>
+        <div class="textInput">
+            <label class="input__lbl">
+                <span class="txt-lbl">RUC: </span>
+            </label>
+            <input type="text" name="ruc_predio" required value="{{ data.ruc_predio }}" readonly>
         </div>
     </div>
-    <div class="form-apartado">
+    <!--SERVICIOS-->
+    <div class="form-apartado" id="info_servicio">
         <div class="apartado-titulo">INFORMACIÓN DE SERVICIOS</div>
         <div class="textInput">
             <label class="input__lbl">
-                <span class="txt-lbl">Nombre: </span>
+                <span class="txt-lbl">Tipo de servicio: </span>
             </label>
-            <input type="text" name="nombre" required value="a" readonly>
+            <input type="text" name="tipo_servicio" required value="{{ data.tipo_servicio }}" readonly>
         </div>
         <div class="textInput">
             <label class="input__lbl">
-                <span class="txt-lbl">Rol: </span>
+                <span class="txt-lbl">Cantidad de personal de limpieza: </span>
             </label>
-            <input type="text" name="rol" required value="a" readonly>
+            <input type="text" name="cant_pers_limpieza" required value="{{ data.cant_plimpieza }}" readonly>
         </div>
         <div class="textInput">
             <label class="input__lbl">
-                <span class="txt-lbl">Rol: </span>
+                <span class="txt-lbl">Cantidad de vigilantes: </span>
             </label>
-            <input type="text" name="rol" required value="a" readonly>
-        </div>
-        <div class="textInput">
-            <label class="input__lbl">
-                <span class="txt-lbl">Rol: </span>
-            </label>
-            <input type="text" name="rol" required value="a" readonly>
-        </div>
-        <div class="textInput">
-            <label class="input__lbl">
-                <span class="txt-lbl">Rol: </span>
-            </label>
-            <input type="text" name="rol" required value="a" readonly>
+            <input type="text" name="tipo_servicio" required value="{{ data.cant_vigilantes }}" readonly>
         </div>
     </div>
 </form>

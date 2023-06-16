@@ -1,0 +1,14 @@
+
+.cuadro {
+    border: 1px solid black;
+    padding: 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    background-color: gray;
+  }
+  
+  .tabla-cotizaciones th,
+  .tabla-cotizaciones td {
+    text-align: center !important;
+  }
+  

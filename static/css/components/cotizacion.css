@@ -3,12 +3,12 @@
     padding-top: 100px;
     z-index: 300;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 .form-apartado{
-    min-width: 100%;
-    border-top: 1px solid #dbdbdb;
-    border-bottom: 1px solid #dbdbdb;
+    width: 50%;
+    border: 1px solid #dbdbdb;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,7 +20,7 @@
     padding-top: 20px;
 }
 .form-apartado .textInput{
-    width: 50%;
+    width: 70%;
     padding-bottom: 10px;
     display: flex;
     flex-direction: row;
@@ -29,7 +29,7 @@
     align-items: center;
 }
 .container-form .textInput input, .container-form .textInput label{
-    min-width: 50%;
+    width: 100%;
     background: none;
     color: #ffffff;
     padding-top: 20px;
@@ -41,3 +41,14 @@
     border-bottom: 3px solid #c7c7c7;
 }
 
+#info_predio, #info_personal{
+    width: 50%;
+    height: 45vh;
+    margin: 0;
+}
+
+#info_servicio{
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
