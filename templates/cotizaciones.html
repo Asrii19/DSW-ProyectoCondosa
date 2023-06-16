@@ -129,7 +129,7 @@
                 <div class="field">
                     <label class="label">Importe</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Ingrese el importe">
+                        <input class="input" type="text" placeholder="Ingrese el importe" readonly value="{{ solicitudp.cant_vigilantes * 400 }}">
                     </div>
                 </div>
 
@@ -141,7 +141,7 @@
                 <div class="field">
                     <label class="label">Importe</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Ingrese el importe">
+                        <input class="input" type="text" placeholder="Ingrese el importe" readonly>
                     </div>
                 </div>
 
@@ -152,7 +152,7 @@
                 <div class="field">
                     <label class="label">Importe</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Ingrese el importe">
+                        <input class="input" type="text" placeholder="Ingrese el importe" readonly>
                     </div>
                 </div>
 
@@ -163,7 +163,7 @@
                 <div class="field">
                     <label class="label">Importe</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Ingrese el importe">
+                        <input class="input" type="text" placeholder="Ingrese el importe" readonly>
                     </div>
                 </div>
 
@@ -171,7 +171,7 @@
                 <div class="field">
                     <label class="label">Importe total</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Ingrese el importe total">
+                        <input class="input" type="text" placeholder="Ingrese el importe total" readonly>
                     </div>
                 </div>
             </div>
@@ -184,7 +184,7 @@
                 <div class="field">
                     <label class="label">Importe</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Ingrese el importe">
+                        <input class="input" type="text" placeholder="Ingrese el importe" readonly>
                     </div>
                 </div>
             </div>
@@ -197,7 +197,7 @@
                 <div class="field">
                     <label class="label">Importe</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Ingrese el importe">
+                        <input class="input" type="text" placeholder="Ingrese el importe" readonly>
                     </div>
                 </div>
             </div>
@@ -210,24 +210,26 @@
                 <div class="field">
                     <label class="label">Importe</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Ingrese el importe">
+                        <input class="input" type="text" placeholder="Ingrese el importe" readonly>
                     </div>
                 </div>
             </div>
             {% endif %}
 
             <!-- Botones de Aceptar y Rechazar -->
-            <div class="buttons button-container">
-                <button class="button is-link is-small"
-                    onclick="aceptarCotizacion('{{ solicitudp.id_solicitud }}')" 
+            <div class="buttons button-container" action="{{ url_for('cotizaciones.aceptar') }}" method="POST">
+                <button type="submit" class="button is-link is-small"
                     style="margin-right: 10px; margin-top: 10px;">
+                    <input type="hidden" name="aceptar__id_solicitud" value="{{ solicitudp.id_solicitud }}">
                     <span class="material-icons">
                         done
                     </span>
                     Aceptar
                 </button>
-                <button class="button is-danger is-small" onclick="rechazarCotizacion('{{ solicitudp.id_solicitud }}')"
+
+                <button type="submit" class="button is-danger is-small"
                     style="margin-left: 10px; margin-top: 10px;">
+                    <input type="hidden" name="rechazar__id_solicitud" value="{{ solicitudp.id_solicitud }}">
                     <span class="material-icons">
                         clear
                     </span>
@@ -242,45 +244,6 @@
 
 
 
-<script>
-    function mostrarTabla(tab) {
-        if (tab === 'pendientes') {
-            document.getElementById('tabla-pendientes').style.display = 'block';
-            document.getElementById('tabla-completadas').style.display = 'none';
-            document.getElementById('pendientes-tab').classList.add('is-active');
-            document.getElementById('completadas-tab').classList.remove('is-active');
-        } else if (tab === 'completadas') {
-            document.getElementById('tabla-pendientes').style.display = 'none';
-            document.getElementById('tabla-completadas').style.display = 'block';
-            document.getElementById('pendientes-tab').classList.remove('is-active');
-            document.getElementById('completadas-tab').classList.add('is-active');
-        }
-    }
-
-    function mostrarPopup(popupId) {
-        var popup = document.getElementById(popupId);
-        popup.classList.add("is-active");
-    }
-
-    function cerrarPopup(popupId) {
-        var popup = document.getElementById(popupId);
-        popup.classList.remove("is-active");
-    }
-
-    // Función para aceptar la cotización
-    function aceptarCotizacion(idSolicitud) {
-        // Lógica para aceptar la cotización con el ID de solicitud proporcionado
-        console.log("Cotización aceptada. ID de Solicitud: " + idSolicitud);
-        console.log(importeJardineros);
-    }
-
-    // Función para rechazar la cotización
-    function rechazarCotizacion(idSolicitud) {
-        // Lógica para rechazar la cotización con el ID de solicitud proporcionado
-        console.log("Cotización rechazada. ID de Solicitud: " + idSolicitud);
-    }
-
-
-</script>
+<script src="{{ url_for('static', filename='js/cotizaciones.js') }}"></script>
 
 {% endblock %}

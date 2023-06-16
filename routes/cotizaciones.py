@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template as rt
+from flask import Blueprint, render_template as rt, request
 from models.solicitudCotizacion import SolicitudCotizacion
 from models.solicitud import Solicitud
 from models.predio import Predio
@@ -25,5 +25,18 @@ def cotizaciones():
         solicitudp.descripcion_predio = predios_dict.get(solicitudp.id_predio)
         solicitudp.nombre_solicitante = solicitantes_dict.get(solicitudp.id_solicitante)
         solicitudp.descripcion_servicio = servicios_dict.get(solicitudp.id_servicio)  # Obtener la descripción del servicio
-        
+
     return rt("cotizaciones.html", cotizaciones_pendientes=cotizaciones_pendientes, cotizaciones_completadas=cotizaciones_completadas)
+
+
+@bp.route('/aceptar', methods=['POST'])
+def aceptar():
+    if request.method == "POST":
+        id_solicitud = request.form.get('aceptar__id_solicitud')
+        print("Aceptado: ",id_solicitud)
+
+@bp.route('/rechazar', methods=['POST'])
+def rechazar():
+    if request.method == "POST":
+        id_solicitud = request.form.get('rechazar__id_solicitud')
+        print("Rechazado: ",id_solicitud)
