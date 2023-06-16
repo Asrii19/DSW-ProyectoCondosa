@@ -1,14 +1,32 @@
-
+body{
+  background-color: transparent;
+}
+.content-cuadro{
+  background-color: transparent !important;
+  padding-top: 100px;
+  display: flex;
+}
+#pendientes-tab, #completadas-tab{
+  border-bottom-color: #444;
+  color: #444;
+}
+.is-active{
+  border-bottom-color: #000 !important;
+  color: #000 !important;
+}
+.logo h1{
+  padding-top: 36px;
+}
 .cuadro {
-    border: 1px solid black;
-    padding: 20px;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    background-color: gray;
-  }
-  
-  .tabla-cotizaciones th,
-  .tabla-cotizaciones td {
-    text-align: center !important;
-  }
-  
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid black;
+  margin-bottom: 50px;
+  background-color: gray;
+}
+
+.tabla-cotizaciones th,
+.tabla-cotizaciones td {
+  text-align: center !important;
+}

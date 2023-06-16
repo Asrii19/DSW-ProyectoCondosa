@@ -14,6 +14,8 @@ def crear_app():
     app.register_blueprint(principal.bp)
     from routes import vista
     app.register_blueprint(vista.bp)
+    from routes import cotizaciones  # Importa el blueprint 'cotizaciones'
+    app.register_blueprint(cotizaciones.bp)  # Registra el blueprint 'cotizaciones'
     from routes import solicitud_cotizacion
     app.register_blueprint(solicitud_cotizacion.bp)
     return app
