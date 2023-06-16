@@ -18,4 +18,6 @@ def crear_app():
     app.register_blueprint(cotizaciones.bp)  # Registra el blueprint 'cotizaciones'
     from routes import solicitud_cotizacion
     app.register_blueprint(solicitud_cotizacion.bp)
+    from routes import boleta
+    app.register_blueprint(boleta.bp)
     return app

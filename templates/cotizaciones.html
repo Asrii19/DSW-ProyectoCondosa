@@ -92,11 +92,13 @@
                                     visibility
                                 </span>
                             </a>
-                            <button class="button is-link is-small" data-toggle="tooltip" title="Descargar boleta">
-                                <span class="material-icons">
-                                    download
-                                </span>
-                            </button>
+                            <form class="btn_download" action="{{ url_for('boleta.generar_pdf') }}" method="POST">
+                                <button type="submit" class="button is-link is-small" data-toggle="tooltip" title="Descargar boleta">
+                                    <span class="material-icons">
+                                        download
+                                    </span>
+                                </button>
+                            </form>                            
                         </td>
                     </tr>
                     {% endfor %}
