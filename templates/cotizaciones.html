@@ -129,7 +129,7 @@
                 <div class="field">
                     <label class="label">Importe</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Ingrese el importe" readonly value="{{ solicitudp.cant_vigilantes * 400 }}">
+                        <input class="input" type="text" readonly value="{{ solicitudp.cant_vigilantes * 400}}">
                     </div>
                 </div>
 
@@ -141,7 +141,7 @@
                 <div class="field">
                     <label class="label">Importe</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Ingrese el importe" readonly>
+                        <input class="input" type="text" readonly value="{{ solicitudp.cant_plimpieza * 300}}">
                     </div>
                 </div>
 
@@ -152,7 +152,7 @@
                 <div class="field">
                     <label class="label">Importe</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Ingrese el importe" readonly>
+                        <input class="input" type="text" readonly value="{{ solicitudp.cant_administracion* 500}} ">
                     </div>
                 </div>
 
@@ -163,7 +163,7 @@
                 <div class="field">
                     <label class="label">Importe</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Ingrese el importe" readonly>
+                        <input class="input" type="text" readonly value="{{ solicitudp.cant_jardineria * 300}}">
                     </div>
                 </div>
 
@@ -171,7 +171,7 @@
                 <div class="field">
                     <label class="label">Importe total</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Ingrese el importe total" readonly>
+                        <input class="input" type="text" name="importe_totalAdmin" readonly value="{{(solicitudp.cant_jardineria * 300)+(solicitudp.cant_administracion* 500)+(solicitudp.cant_plimpieza * 300)+(solicitudp.cant_vigilantes * 400)}}" >
                     </div>
                 </div>
             </div>
@@ -184,7 +184,7 @@
                 <div class="field">
                     <label class="label">Importe</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Ingrese el importe" readonly>
+                        <input class="input" type="text" readonly name="importe_totalLimpieza" value="{{ solicitudp.cant_plimpieza * 300}}">
                     </div>
                 </div>
             </div>
@@ -197,7 +197,7 @@
                 <div class="field">
                     <label class="label">Importe</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Ingrese el importe" readonly>
+                        <input class="input" type="text" readonly name="importe_totalJardineria" value="{{ solicitudp.cant_jardineria * 300}}">
                     </div>
                 </div>
             </div>
@@ -210,31 +210,34 @@
                 <div class="field">
                     <label class="label">Importe</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Ingrese el importe" readonly>
+                        <input class="input" type="text" readonly name="importe_totalVigilantes" value="{{ solicitudp.cant_vigilantes * 400}}">
                     </div>
                 </div>
             </div>
             {% endif %}
 
             <!-- Botones de Aceptar y Rechazar -->
-            <div class="buttons button-container" action="{{ url_for('cotizaciones.aceptar') }}" method="POST">
-                <button type="submit" class="button is-link is-small"
-                    style="margin-right: 10px; margin-top: 10px;">
-                    <input type="hidden" name="aceptar__id_solicitud" value="{{ solicitudp.id_solicitud }}">
-                    <span class="material-icons">
-                        done
-                    </span>
-                    Aceptar
-                </button>
-
-                <button type="submit" class="button is-danger is-small"
-                    style="margin-left: 10px; margin-top: 10px;">
-                    <input type="hidden" name="rechazar__id_solicitud" value="{{ solicitudp.id_solicitud }}">
-                    <span class="material-icons">
-                        clear
-                    </span>
-                    Rechazar
-                </button>
+            <div class="buttons button-container">
+                <form action="{{ url_for('cotizaciones.aceptar') }}" method="POST">
+                    <button type="submit" class="button is-link is-small"
+                        style="margin-right: 10px; margin-top: 10px;">
+                        <input type="hidden" name="aceptar__id_solicitud" value="{{ solicitudp.id_solicitud }}">
+                        <span class="material-icons">
+                            done
+                        </span>
+                        Aceptar
+                    </button>
+                </form>
+                <form action="{{ url_for('cotizaciones.rechazar') }}" method="POST">
+                    <button type="submit" class="button is-danger is-small"
+                        style="margin-left: 10px; margin-top: 10px;">
+                        <input type="hidden" name="rechazar__id_solicitud" value="{{ solicitudp.id_solicitud }}">
+                        <span class="material-icons">
+                            clear
+                        </span>
+                        Rechazar
+                    </button>
+                </form>
             </div>
         </div>
     </div>
