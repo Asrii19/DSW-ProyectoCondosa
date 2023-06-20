@@ -5,6 +5,7 @@ from reportlab.lib import colors
 from reportlab.platypus import Table, TableStyle
 from reportlab.pdfgen import canvas
 from flask import make_response, request
+from utils.id import formatear_id
 
 from models.solicitud import Solicitud
 from models.solicitante import Solicitante
@@ -22,25 +23,30 @@ def generar_pdf():
     # Crear un objeto de lienzo PDF
     buffer = BytesIO()  # Crear un buffer de bytes para almacenar el PDF generado
     pdf = canvas.Canvas(buffer)
+    
     id_solicitud = request.form.get('descargar__id_solicitud')
-    dibujar_encabezado(pdf)
-    dibujar_body(pdf,id_solicitud)
-    dibujar_footer(pdf)
 
+    titulo = f"Cotizacion - {formatear_id(id_solicitud)}"
+
+    pdf.setTitle(titulo)
+
+    dibujar_encabezado(pdf,50,600)
+    dibujar_body(pdf,id_solicitud,100,510)
+    dibujar_footer(pdf,50,50)
+
+    pdf.setPageSize((600, 650))  # Establecer un ancho de 500 puntos y un alto de 700 puntos
     # Guardar el lienzo y finalizar el PDF
     pdf.save()
 
     buffer.seek(0)  # Restablecer el puntero del buffer al principio
     response = make_response(buffer.getvalue())
     response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = f'attachment; filename=archivo-id{id_solicitud}.pdf'
+    response.headers['Content-Disposition'] = f'attachment; filename={titulo}.pdf'
     return response
 
 # ENCABEZADO
-def dibujar_encabezado(pdf):
+def dibujar_encabezado(pdf,x_encabezado,y_encabezado):
     # Definir las coordenadas para el encabezado y la línea
-    x_encabezado = 50  # posición x del encabezado
-    y_encabezado = 800  # posición y del encabezado
     x_linea = 50  # posición x de la línea
     y_linea = y_encabezado - 10  # posición y de la línea (ajusta la separación)
     # Configurar la fuente y el tamaño del texto del encabezado
@@ -53,40 +59,53 @@ def dibujar_encabezado(pdf):
     pdf.line(x_linea, y_linea, pdf._pagesize[0] - x_linea, y_linea)  # dibujar línea horizontal
 
 # BODY
-def dibujar_body(pdf,id_solicitud):
+def dibujar_body(pdf,id_solicitud,posicionx,posiciony):
     data = obtener_data(id_solicitud)
-    generar_infoSolicitante(pdf,data)
-    generar_tabla(pdf,data)
+    generar_titulo(pdf,data,posicionx+50,posiciony) #Título en posicion 100, 740
+    generar_infoSolicitante(pdf,data,posicionx,posiciony-60)
+    generar_tabla(pdf,data,posicionx,posiciony-160)
 
-def generar_infoSolicitante(pdf,data):
+def generar_titulo(pdf,data,xtitulo,ytitulo):
+    #titulo en sí -> 100,740
+    pdf.setFont("Helvetica-Bold", 25)
+    pdf.drawString(xtitulo, ytitulo, "COTIZACION DE SERVICIOS")
+    #id -> 100,725  
+    pdf.setFont("Helvetica", 10)
+    pdf.drawString(xtitulo, ytitulo-15, f"Id-Solicitud: {formatear_id(data['id_solicitud'])}")
+    #fecha -> 400, 725
+    pdf.drawString(xtitulo+250, ytitulo-15, f"Fecha: {data['fecha']}")
+
+def generar_infoSolicitante(pdf,data,posix,posiy):
     # Obtener datos del solicitante
     nombre = data["nombres_apellido"]
     nro_documento = data["ndocumento"]
     predio = data["nombre_predio"]
+    ruc = data["ruc_predio"]
     cargo = data["rol"]
     correo = data["correo"]
     telefono = data["telefono"]
-    print(telefono)
-    pdf.setFont("Helvetica", 12)
-    pdf.setFillColor(colors.red)  # Establecer color rojo para el nombre
-    pdf.drawString(100, 730, "Nombre:")
-    pdf.drawString(100, 710, "Nro documento:")
-    pdf.drawString(100, 690, "Predio:")
-    pdf.drawString(300, 730, "Rol:")
-    pdf.drawString(300, 710, "Correo:")
-    pdf.drawString(300, 690, "Telefono:")
-    pdf.setFillColor(colors.black)  # Restablecer color negro para los siguientes textos
-    pdf.drawString(170, 730, nombre)
-    pdf.drawString(190, 710, nro_documento) 
-    pdf.drawString(170, 690, predio)
-    pdf.drawString(370, 730, cargo)
-    pdf.drawString(370, 710, correo)
-    pdf.drawString(370, 690, str(telefono))
-
     
+    pdf.setFont("Helvetica-BoldOblique", 10)
+    pdf.drawString(posix, posiy+15, "Solicitante")
+    pdf.setFont("Helvetica", 11)
+    pdf.drawString(posix, posiy, "Nombre:")
+    pdf.drawString(posix, posiy-20, "Nro documento:")
+    pdf.drawString(posix, posiy-40, "Predio:")
+    pdf.drawString(posix, posiy-60, "R.U.C.:")
+    pdf.drawString(posix+200, posiy, "Rol:")
+    pdf.drawString(posix+200, posiy-20, "Correo:")
+    pdf.drawString(posix+200, posiy-40, "Telefono:")
+    pdf.setFillColor(colors.black)  # Restablecer color negro para los siguientes textos
+    pdf.drawString(posix+70, posiy, nombre)
+    pdf.drawString(posix+90, posiy-20, nro_documento) 
+    pdf.drawString(posix+70, posiy-40, predio)
+    pdf.drawString(posix+70, posiy-60, ruc)
+    pdf.drawString(posix+270, posiy, cargo)
+    pdf.drawString(posix+270, posiy-20, correo)
+    pdf.drawString(posix+270, posiy-40, str(telefono))
 
 #generar tabla del body
-def generar_tabla(pdf,data):
+def generar_tabla(pdf,data,posix,posiy):
     administracion =False
     # Tus cuatro listas con valores unitarios
     lista1 = [data["id_servicio"]]
@@ -135,24 +154,46 @@ def generar_tabla(pdf,data):
     for row in data:
         table_data.append(list(row))
 
-    table_data.append(["","","Monto Neto (S/)",round(sum(lista4)*100/118,2)])
+    table_data.append(["","","Monto Neto",round(sum(lista4)*100/118,2)])
     table_data.append(["","","IGV (18%)",round(sum(lista4)*(100/118)*(18/100),2)])
-    table_data.append(["","","Monto Total (S/)",sum(lista4)])
-
+    table_data.append(["","","Monto Total",sum(lista4)])
+    color_azul = ((4/255, 26/255, 47/255))
+    color_azulclaro = ((215/255, 235/255, 255/255))
     table = Table(table_data, colWidths=100, rowHeights=30)
-    table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.gray),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+    estilo_tabla = TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), color_azul),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0, 0), (-1, 0), 12),
+        ('FONTSIZE', (0, 0), (-1, 0), 14),
+        ('GRID', (0, 0), (-1, -4), 1, colors.black),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black),
-    ]))
-    
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('FONTSIZE', (0, 1), (-1, -1), 11),
+    ])
+    # Alternar colores de fondo para filas
+    for i in range(1, len(table_data)):
+        if i % 2 == 0 and i!=0:
+            estilo_tabla.add('BACKGROUND', (0, i), (-1, i), colors.white)
+        else:
+            estilo_tabla.add('BACKGROUND', (0, i), (-1, i), color_azulclaro)
+    # Negrita en el total
+    for i in range(1, len(table_data)):
+        if i >= len(table_data)-3:
+            estilo_tabla.add('BACKGROUND', (0, i), (-3, i), colors.white),
+            estilo_tabla.add('GRID', (0, i), (-3, i), 0, colors.white),
+            estilo_tabla.add('GRID', (2, i), (-1, -1), 1, colors.black),
+        if i == len(table_data)-3:
+            estilo_tabla.add('GRID', (0, i-1), (-3, i-1), 1, colors.black),
+    # Negrita en el total
+    for i in range(1, len(table_data)):
+        if i >= len(table_data)-3:
+            estilo_tabla.add('FONTNAME', (2, i), (-2, i), 'Helvetica-Bold'),
+    table.setStyle(estilo_tabla)
     table.wrapOn(pdf, 400, 500)
-    table.drawOn(pdf, 100, 650-table._height)
+    pdf.setFont("Helvetica-BoldOblique", 10)
+    pdf.drawString(posix, posiy+5, "Cotización")
+    table.drawOn(pdf, posix, posiy-table._height)
 
 #obtener la data para imprimirla
 def obtener_data(id_solicitud):
@@ -193,17 +234,16 @@ def obtener_data(id_solicitud):
         "importe_plimpieza" : 300,
         "importe_jardineria": 300,
         "importe_vigilantes": 400,
-        "cantidad_total": 0
+        "cantidad_total": 0,
+        "fecha": solicitud_cotizacion.fecha_cotizacion,
     }
     return data
 
 # FOOTER
-def dibujar_footer(pdf):
+def dibujar_footer(pdf,x_footer,y_footer):
     pdf.setFont("Helvetica-Bold", 10)
     # Definir las coordenadas para el footer y la línea
-    x_footer = 50  # posición x del footer
-    y_footer = 50  # posición y del footer
-    x_linea = 50  # posición x de la línea
+    x_linea = x_footer  # posición x de la línea
     y_linea = y_footer + 20  # posición y de la línea (ajusta la separación)
     # Dibujar una línea negra encima del footer
     pdf.setLineWidth(5)  # Establecer el ancho de línea
