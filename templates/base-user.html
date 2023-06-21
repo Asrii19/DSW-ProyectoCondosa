@@ -10,10 +10,6 @@
     rel="stylesheet" href="{{url_for('static',filename="css/style.css")}}">
     <link rel="stylesheet"
     href="{{url_for('static',filename="css/components/nav.css")}}">
-  </head>
-  <body>
-    <div class="fondo"></div>
-    <div class="capa"></div>
     <nav class="nav-container">
       <header class="header">
         <div class="container">
@@ -47,11 +43,21 @@
         </div>
       </div>
     </nav>
-
-    {%block content%} {%endblock%}
-
-    <footer>
-      <p>&copy; 2023 CONDOSA. Todos los derechos reservados.</p>
-    </footer>
+  
+  </head>
+  
+  <body>
+    <div class="fondo"></div>
+    {% block content %}
+    <!-- Aquí va el contenido específico de la plantilla hija -->
+    {% endblock %}
   </body>
+
+  <footer>
+    <p>&copy; 2023 CONDOSA. Todos los derechos reservados.</p>
+  </footer>
+
+ 
+
+
 </html>

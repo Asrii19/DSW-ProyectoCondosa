@@ -10,7 +10,7 @@
 
 <div class="content-cuadro">
     <div class="cuadro">
-        <h1 class="title is-2">Cotizaciones</h1>
+        <h1 class="title is-2 titulo">Cotizaciones</h1>
 
         <!-- Pestañas -->
         <div class="tabs">
@@ -35,7 +35,7 @@
                         <th>Predio</th>
                         <th>Solicitante</th>
                         <th>Servicio</th>
-                        <th>Acciones</th>
+                        <th>Cotizar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,12 +46,12 @@
                         <td>{{ solicitudp.nombre_solicitante }}</td>
                         <td>{{ solicitudp.descripcion_servicio }}</td>
                         <td>
-                            <a href="{{ url_for('solicitud_cotizacion.cotizar', id_solicitud=solicitudp.id_solicitud, estado="Pendiente") }}" class="button is-link is-small" data-toggle="tooltip" title="Ver Detalles">
+                            <a href="{{ url_for('solicitud_cotizacion.cotizar', id_solicitud=solicitudp.id_solicitud, estado="Pendiente") }}" class="button is-link is-small" data-toggle="tooltip" title="Cotizar">
                                 <span class="material-icons">
-                                    visibility
+                                    monetization_on
                                 </span>
                             </a>
-                            <button class="button is-link is-small" data-toggle="tooltip" title="Cotizar"
+                            <button hidden class="button is-link is-small" data-toggle="tooltip" title="Cotizar"
                                 onclick="mostrarPopup('popup-{{ solicitudp.id_solicitud }}')">
                                 <span class="material-icons">
                                     monetization_on

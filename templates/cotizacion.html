@@ -4,7 +4,9 @@
 
 {%endblock%}
 {%block content%}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma-rtl.min.css">
 <link rel="stylesheet" href="{{url_for('static',filename='css/components/cotizacion.css')}}">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <!--Formulario-->
 <form class="container-form" method="POST" action="{{ url_for('index.index') }}">
@@ -98,8 +100,9 @@
             <input type="text" name="cant_vigilantes" required value="{{ data.cant_vigilantes }}" readonly>
         </div>
 
+
         {% if cotizacion_realizada == "Realizada" %}
-        
+
         <div class="textInput">
             <label class="input__lbl">
                 <span class="txt-lbl">Importe: </span>
@@ -110,6 +113,90 @@
         {% endif %}
 
     </div>
+
+    <!--COTIZACION-->
+    <div class="form-apartado" id="info_cotizacion">
+        <div class="apartado-titulo">INFORMACIÓN DE LA COTIZACION</div>
+        {% if data.id_servicio == 1 %}
+        <div class="textInput">
+            <label class="input__lbl">
+                <span class="txt-lbl">Importe por administrador: </span>
+            </label>
+            <input type="text" required name="importe_administracion" value="{{ data.cant_administracion*500 }}"
+                readonly>
+        </div>
+        <div class="textInput">
+            <label class="input__lbl">
+                <span class="txt-lbl">Importe por personal de limpieza: </span>
+            </label>
+            <input type="text" name="importe_plimpieza" required value="{{ data.cant_plimpieza*300 }}" readonly>
+        </div>
+        <div class="textInput">
+            <label class="input__lbl">
+                <span class="txt-lbl">Importe por jardineros: </span>
+            </label>
+            <input type="text" name="importe_jardineria" required value="{{ data.cant_jardineria*400 }}" readonly>
+        </div>
+        <div class="textInput">
+            <label class="input__lbl">
+                <span class="txt-lbl">Importe por vigilantes: </span>
+            </label>
+            <input type="text" name="importe_vigilantes" required value="{{ data.cant_vigilantes*400 }}" readonly>
+        </div>
+        {% endif %}
+
+        {% if data.id_servicio == 2 %}
+        <div class="textInput">
+            <label class="input__lbl">
+                <span class="txt-lbl">Importe por personal de limpieza: </span>
+            </label>
+            <input type="text" name="importe_plimpieza" required value="{{ data.cant_plimpieza*300 }}" readonly>
+        </div>
+        {% endif %}
+    
+        {% if data.id_servicio == 3 %}
+        <div class="textInput">
+            <label class="input__lbl">
+                <span class="txt-lbl">Importe por jardineros: </span>
+            </label>
+            <input type="text" name="importe_jardineria" required value="{{ data.cant_jardineria*400 }}" readonly>
+        </div>
+        {% endif %}
+    
+        {% if data.id_servicio == 4 %}
+        <div class="textInput">
+            <label class="input__lbl">
+                <span class="txt-lbl">Importe por vigilantes: </span>
+            </label>
+            <input type="text" name="importe_vigilantes" required value="{{ data.cant_vigilantes*400 }}" readonly>
+        </div>
+        {% endif %}
+    </div>
+    
+    
+ 
 </form>
-  
+   <!-- Botones de Aceptar y Rechazar -->
+   <div class="buttons button-container">
+    <form action="{{ url_for('cotizaciones.aceptar') }}" method="POST">
+        <button type="submit" class="button is-link is-small"
+            style="margin-right: 10px; margin-top: 10px;">
+            <input type="hidden" name="aceptar__id_solicitud" value="{{ data.id_solicitud }}">
+            <span class="material-icons">
+                done
+            </span>
+            Registrar
+        </button>
+    </form>
+    <form action="{{ url_for('cotizaciones.rechazar') }}" method="POST">
+        <button type="submit" class="button is-danger is-small"
+            style="margin-left: 10px; margin-top: 10px;">
+            <input type="hidden" name="rechazar__id_solicitud" value="{{ data.id_solicitud }}">
+            <span class="material-icons">
+                clear
+            </span>
+            Cancelar
+        </button>
+    </form>
+</div>
 {%endblock%}

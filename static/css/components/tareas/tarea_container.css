@@ -6,11 +6,10 @@
 }
 .container-tareas{
     width: 100%;
-    height: calc(100% - 130px);
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: 1100px;
     margin: auto;
 }
 .box{

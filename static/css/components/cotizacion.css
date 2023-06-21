@@ -1,6 +1,11 @@
 .container-form{
     display: flex;
-    padding-top: 100px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
     z-index: 300;
     align-items: center;
     flex-direction: row;
@@ -40,15 +45,15 @@
 .container-form .textInput input{
     border-bottom: 3px solid #c7c7c7;
 }
+.button-container {
+    display: flex; /* Activa el flexbox */
+    justify-content: center; /* Centra horizontalmente los elementos en el contenedor */
+    align-items: center; /* Centra verticalmente los elementos en el contenedor */
+  }
 
-#info_predio, #info_personal{
+#info_predio, #info_personal,#info_servicio,#info_cotizacion{
     width: 50%;
     height: 45vh;
     margin: 0;
 }
 
-#info_servicio{
-    width: 75%;
-    margin-left: auto;
-    margin-right: auto;
-}
