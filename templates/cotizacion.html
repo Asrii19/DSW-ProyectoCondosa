@@ -69,6 +69,7 @@
     <!--SERVICIOS-->
     <div class="form-apartado" id="info_servicio">
         <div class="apartado-titulo">INFORMACIÓN DE SERVICIOS</div>
+        {% if data.id_servicio == 1 %}
         <div class="textInput">
             <label class="input__lbl">
                 <span class="txt-lbl">Tipo de servicio: </span>
@@ -93,25 +94,35 @@
             </label>
             <input type="text" name="cant_jardineria" required value="{{ data.cant_jardineria }}" readonly>
         </div>
+
+        {% endif %}
+
+        {% if data.id_servicio == 2 %}
+        <div class="textInput">
+            <label class="input__lbl">
+                <span class="txt-lbl">Cantidad de personal de limpieza: </span>
+            </label>
+            <input type="text" name="cant_plimpieza" required value="{{ data.cant_plimpieza }}" readonly>
+        </div>
+        {% endif %}
+
+        {% if data.id_servicio == 3 %}
+        <div class="textInput">
+            <label class="input__lbl">
+                <span class="txt-lbl">Cantidad de jardineros: </span>
+            </label>
+            <input type="text" name="cant_jardineria" required value="{{ data.cant_jardineria }}" readonly>
+        </div>
+        {% endif %}
+
+        {% if data.id_servicio == 4 %}
         <div class="textInput">
             <label class="input__lbl">
                 <span class="txt-lbl">Cantidad de vigilantes: </span>
             </label>
             <input type="text" name="cant_vigilantes" required value="{{ data.cant_vigilantes }}" readonly>
         </div>
-
-
-        {% if cotizacion_realizada == "Realizada" %}
-
-        <div class="textInput">
-            <label class="input__lbl">
-                <span class="txt-lbl">Importe: </span>
-            </label>
-            <input type="text" name="importe" required value="{{ data.importe }}" readonly>
-        </div>
-
         {% endif %}
-
     </div>
 
     <!--COTIZACION-->
@@ -135,13 +146,21 @@
             <label class="input__lbl">
                 <span class="txt-lbl">Importe por jardineros: </span>
             </label>
-            <input type="text" name="importe_jardineria" required value="{{ data.cant_jardineria*400 }}" readonly>
+            <input type="text" name="importe_jardineria" required value="{{ data.cant_jardineria*300 }}" readonly>
         </div>
         <div class="textInput">
             <label class="input__lbl">
                 <span class="txt-lbl">Importe por vigilantes: </span>
             </label>
             <input type="text" name="importe_vigilantes" required value="{{ data.cant_vigilantes*400 }}" readonly>
+        </div>
+        <div class="textInput">
+            <label class="input__lbl">
+                <span class="txt-lbl">Importe total a cotizar: </span>
+            </label>
+            <input type="text" name="importe_vigilantes" required
+                value="{{ (data.cant_vigilantes*400)+( data.cant_jardineria*300)+(data.cant_plimpieza*300)+(data.cant_administracion*500) }}"
+                readonly>
         </div>
         {% endif %}
 
@@ -153,16 +172,16 @@
             <input type="text" name="importe_plimpieza" required value="{{ data.cant_plimpieza*300 }}" readonly>
         </div>
         {% endif %}
-    
+
         {% if data.id_servicio == 3 %}
         <div class="textInput">
             <label class="input__lbl">
                 <span class="txt-lbl">Importe por jardineros: </span>
             </label>
-            <input type="text" name="importe_jardineria" required value="{{ data.cant_jardineria*400 }}" readonly>
+            <input type="text" name="importe_jardineria" required value="{{ data.cant_jardineria*300 }}" readonly>
         </div>
         {% endif %}
-    
+
         {% if data.id_servicio == 4 %}
         <div class="textInput">
             <label class="input__lbl">
@@ -172,15 +191,13 @@
         </div>
         {% endif %}
     </div>
-    
-    
- 
+
 </form>
-   <!-- Botones de Aceptar y Rechazar -->
-   <div class="buttons button-container">
+{% if cotizacion_realizada == "No realizada" %}
+<!-- Botones de Aceptar y Rechazar -->
+<div class="buttons button-container">
     <form action="{{ url_for('cotizaciones.aceptar') }}" method="POST">
-        <button type="submit" class="button is-link is-small"
-            style="margin-right: 10px; margin-top: 10px;">
+        <button type="submit" class="button is-link is-small" style="margin-right: 10px; margin-top: 10px;">
             <input type="hidden" name="aceptar__id_solicitud" value="{{ data.id_solicitud }}">
             <span class="material-icons">
                 done
@@ -189,8 +206,7 @@
         </button>
     </form>
     <form action="{{ url_for('cotizaciones.rechazar') }}" method="POST">
-        <button type="submit" class="button is-danger is-small"
-            style="margin-left: 10px; margin-top: 10px;">
+        <button type="submit" class="button is-danger is-small" style="margin-left: 10px; margin-top: 10px;">
             <input type="hidden" name="rechazar__id_solicitud" value="{{ data.id_solicitud }}">
             <span class="material-icons">
                 clear
@@ -198,5 +214,6 @@
             Cancelar
         </button>
     </form>
+    {% endif %}
 </div>
 {%endblock%}
