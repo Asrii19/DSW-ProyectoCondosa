@@ -7,7 +7,7 @@
 /* Cuadro */
 
 .content-cuadro {
-  background-color: transparent !important;
+
   height: 100%;
   width: 100%;
   display: flex;
@@ -64,7 +64,7 @@
 }
 
 /* Estilos para la tabla */
-.table {
+.table{
   width: 80%;
   margin-left: auto;
   margin-right: auto;
