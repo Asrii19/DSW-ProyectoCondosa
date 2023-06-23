@@ -6,7 +6,14 @@
 {%block content%}
 <link rel="stylesheet" href="{{url_for('static',filename='css/components/cotizacion.css')}}">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+{% if cotizacion_realizada == "Realizada" %}
+<!--Boton atras-->
+<div class="retroceder-container">
+    <a href="{{ url_for('cotizaciones.cotizaciones') }}" class="retroceder-icon">
+        <img src=" {{ url_for('static',filename='img/atras.png') }} ">
+    </a>
+</div>
+{% endif %}
 <!--Formulario-->
 <form class="container-form">
     <!--INFO PERSONAL-->
@@ -71,12 +78,6 @@
         {% if data.id_servicio == 1 %}
         <div class="textInput">
             <label class="input__lbl">
-                <span class="txt-lbl">Tipo de servicio: </span>
-            </label>
-            <input type="text" name="tipo_servicio" required value="{{ data.tipo_servicio }}" readonly>
-        </div>
-        <div class="textInput">
-            <label class="input__lbl">
                 <span class="txt-lbl">Cantidad de administracion: </span>
             </label>
             <input type="text" name="cant_administracion" required value="{{ data.cant_administracion }}" readonly>
@@ -93,7 +94,18 @@
             </label>
             <input type="text" name="cant_jardineria" required value="{{ data.cant_jardineria }}" readonly>
         </div>
-
+        <div class="textInput">
+            <label class="input__lbl">
+                <span class="txt-lbl">Cantidad de vigilantes: </span>
+            </label>
+            <input type="text" name="cant_vigilantes" required value="{{ data.cant_vigilantes }}" readonly>
+        </div>
+        <div class="textInput">
+            <label class="input__lbl">
+                <span class="txt-lbl">Tipo de servicio: </span>
+            </label>
+            <input type="text" name="tipo_servicio" required value="{{ data.tipo_servicio }}" readonly>
+        </div>
         {% endif %}
 
         {% if data.id_servicio == 2 %}
@@ -213,6 +225,6 @@
             Cancelar
         </button>
     </form>
-    {% endif %}
 </div>
+{% endif %}
 {%endblock%}

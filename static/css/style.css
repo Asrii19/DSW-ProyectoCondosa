@@ -39,5 +39,17 @@
 	max-width: 2rem;
   	height: auto;
   }
-  
+  .retroceder-container{
+	max-width: 100%;
+	display: flex;
+	padding: 0;
+	margin: 0;
+  }
+  .retroceder-icon{
+	align-self: flex-start;
+  }
+  .retroceder-icon img{
+	max-width: 4rem;
+	height: auto;
+  }
   

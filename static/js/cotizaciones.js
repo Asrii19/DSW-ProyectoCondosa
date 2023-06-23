@@ -11,11 +11,3 @@ function mostrarTabla(tab) {
         document.getElementById('completadas-tab').classList.add('option-active');
     }
 }
-
-
-
-function rellenarImportes(idSolicitud) {
-
-    
-
-}
