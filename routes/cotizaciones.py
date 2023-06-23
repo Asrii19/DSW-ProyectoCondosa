@@ -12,7 +12,7 @@ from datetime import datetime
 
 bp = Blueprint('cotizaciones', __name__, url_prefix="/cotizaciones")
 
-@bp.route('/')
+@bp.route('/', methods=['POST','GET'])
 def cotizaciones():
     # Obtener todas las solicitudes
     solicitudes = Solicitud.query.all()
@@ -53,8 +53,10 @@ def cotizaciones():
         solicitudc.id_solicitud = formatear_id(solicitudc.id_solicitud)
         solicitudc.nombre_personal = personal_dict.get(solicitudc.id_personal)
         solicitudc.descripcion_estado = estado_dict.get(solicitudc.id_estado)
-
-    return rt("cotizaciones.html", cotizaciones_pendientes=cotizaciones_pendientes, cotizaciones_completadas=cotizaciones_completadas)
+    bandera = ' '
+    if request.method == "POST":
+        bandera = request.form.get('btn-atras')
+    return rt("cotizaciones.html", cotizaciones_pendientes=cotizaciones_pendientes, cotizaciones_completadas=cotizaciones_completadas, bandera=bandera)
 
 
 @bp.route('/aceptar', methods=['POST'])

@@ -8,11 +8,12 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 {% if cotizacion_realizada == "Realizada" %}
 <!--Boton atras-->
-<div class="retroceder-container">
-    <a href="{{ url_for('cotizaciones.cotizaciones') }}" class="retroceder-icon">
-        <img src=" {{ url_for('static',filename='img/atras.png') }} ">
-    </a>
-</div>
+<form action="{{ url_for('cotizaciones.cotizaciones') }}" method="POST" class="retroceder-container">
+    <button type="submit" style="background: none;">
+        <img src=" {{ url_for('static',filename='img/atras.png') }} " class="retroceder-icon">
+        <input type="hidden" name="btn-atras" value="{{ 'completadas' }}">
+    </button>
+</form>
 {% endif %}
 <!--Formulario-->
 <form class="container-form">
@@ -167,7 +168,11 @@
         </div>
         <div class="textInput">
             <label class="input__lbl">
-                <span class="txt-lbl">Importe total a cotizar: </span>
+                {% if cotizacion_realizada == "No realizada" %}
+                <span class="txt-lbl">Importe TOTAL a cotizar: </span>
+                {% else %}
+                <span class="txt-lbl">Importe TOTAL cotizado: </span>
+                {% endif %}
             </label>
             <input type="text" name="importe_vigilantes" required
                 value="{{ (data.cant_vigilantes*400)+( data.cant_jardineria*300)+(data.cant_plimpieza*300)+(data.cant_administracion*500) }}"

@@ -102,6 +102,10 @@
   transition: box-shadow 0.3s ease-in-out;
   animation: tableFadeIn 0.5s ease-in-out;
   }
+  .tabla-icon{
+    max-width: 2rem;
+    height: auto;
+  }
   
   @keyframes tableFadeIn {
   from {

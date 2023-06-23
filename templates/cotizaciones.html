@@ -104,6 +104,9 @@
 </div>
 
 
+{% if bandera == "completadas" %}
+    <script src="{{ url_for('static', filename='js/cotizacionesCompletadas-display.js') }}"></script>
+{% endif %}
 
 <script src="{{ url_for('static', filename='js/cotizaciones.js') }}"></script>
 
