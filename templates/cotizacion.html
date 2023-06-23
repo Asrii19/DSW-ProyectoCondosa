@@ -196,7 +196,7 @@
 <!-- Botones de Aceptar y Rechazar -->
 <div class="buttons button-container">
     <form action="{{ url_for('cotizaciones.aceptar') }}" method="POST">
-        <button type="submit" class="button is-link is-small" style="margin-right: 10px; margin-top: 10px;">
+        <button type="submit" class="button" style="margin-right: 10px; margin-top: 10px;">
             <input type="hidden" name="aceptar__id_solicitud" value="{{ data.id_solicitud }}">
             <span class="material-icons">
                 done
@@ -205,7 +205,7 @@
         </button>
     </form>
     <form action="{{ url_for('cotizaciones.rechazar') }}" method="POST">
-        <button type="submit" class="button is-danger is-small" style="margin-left: 10px; margin-top: 10px;">
+        <button type="submit" class="button" style="margin-left: 10px; margin-top: 10px;">
             <input type="hidden" name="rechazar__id_solicitud" value="{{ data.id_solicitud }}">
             <span class="material-icons">
                 clear

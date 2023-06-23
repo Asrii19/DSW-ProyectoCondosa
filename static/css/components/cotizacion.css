@@ -11,15 +11,21 @@
     width: 100%;
     height: 100%;
     max-width: 500px;
-    border: 1px solid #dbdbdb;
-    background-color: #fff;
-    border-radius: 15px;
+    border: none;
+    background-color: #292929;
+    border-radius: 10px;
     padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .form-apartado:hover {
+    transform: scale(1.02);
   }
   
   .apartado-titulo {
-    font-size: 20px;
-    color: #000;
+    font-size: 24px;
+    color: #ffffff;
     text-align: center;
     margin-bottom: 20px;
   }
@@ -31,7 +37,7 @@
   .textInput label {
     display: block;
     font-size: 16px;
-    color: #000;
+    color: #ffffff;
     margin-bottom: 5px;
   }
   
@@ -40,30 +46,39 @@
     height: 35px;
     padding: 5px;
     font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    transition: border-color 0.3s ease-in-out;
+    background-color: transparent;
+    color: #ffffff;
+  }
+  
+  .textInput input:focus {
+    outline: none;
+    border-color: #1a83c0;
   }
   
   .textInput input[readonly] {
-    background-color: #f7f7f7;
+    background-color: #444444;
   }
   
   .button-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 10px;
+    margin-top: 20px;
     margin-bottom: 10px;
   }
   
   .button-container button {
-    padding: 10px 10px;
+    padding: 10px 20px;
     font-size: 16px;
     background-color: #1a83c0;
-    color: #fff;
+    color: #ffffff;
     border: none;
-    border-radius: 3px;
+    border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
   }
   
   .button-container button:hover {
