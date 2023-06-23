@@ -52,12 +52,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
-    
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
   
   .button-container button {
-    padding: 10px 20px;
+    padding: 10px 10px;
     font-size: 16px;
     background-color: #1a83c0;
     color: #fff;

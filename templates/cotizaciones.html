@@ -2,7 +2,7 @@
 {% block title %}Cotizaciones{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma-rtl.min.css">
+
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="{{url_for('static',filename='css/components/cotizaciones.css')}}">
 
@@ -28,7 +28,7 @@
 
         <!-- Tabla de Cotizaciones Pendientes -->
         <div id="tabla-pendientes" class="tabla-cotizaciones">
-            <table class="table is-bordered is-hoverable">
+            <table class="table is-bordered is-hoverable is-dark has-text-white">
                 <thead>
                     <tr>
                         <th>ID Solicitud</th>
@@ -112,145 +112,6 @@
         </div>
     </div>
 </div>
-
-
-<!-- Popup de Cotización -->
-{% for solicitudp in cotizaciones_pendientes %}
-<div id="popup-{{ solicitudp.id_solicitud }}" class="modal">
-    <div class="modal-background" onclick="cerrarPopup('popup-{{ solicitudp.id_solicitud }}')"></div>
-    <div class="modal-content">
-        <div class="box">
-            <button class="delete is-pulled-right"
-                onclick="cerrarPopup('popup-{{ solicitudp.id_solicitud }}')"></button>
-            <h2 class="title is-4">Cotización - {{ solicitudp.id_solicitud }}</h2>
-            <!-- Aquí puedes agregar el contenido del formulario de cotización -->
-            {% if solicitudp.id_servicio == 1 %}
-            <div class="formulario-cotizacion">
-                <h3 class="subtitle is-5">Cantidad de vigilantes</h3>
-                <div class="field">
-                    <label class="label">Cantidad : {{ solicitudp.cant_vigilantes}} </label>
-                </div>
-                <div class="field">
-                    <label class="label">Importe</label>
-                    <div class="control">
-                        <input class="input" type="text" readonly value="{{ solicitudp.cant_vigilantes * 400}}">
-                    </div>
-                </div>
-
-
-                <h3 class="subtitle is-5">Cantidad de Personal de limpieza</h3>
-                <div class="field">
-                    <label class="label">Cantidad : {{ solicitudp.cant_plimpieza}}</label>
-                </div>
-                <div class="field">
-                    <label class="label">Importe</label>
-                    <div class="control">
-                        <input class="input" type="text" readonly value="{{ solicitudp.cant_plimpieza * 300}}">
-                    </div>
-                </div>
-
-                <h3 class="subtitle is-5">Cantidad de administrador/es</h3>
-                <div class="field">
-                    <label class="label">Cantidad : {{ solicitudp.cant_administracion}}</label>
-                </div>
-                <div class="field">
-                    <label class="label">Importe</label>
-                    <div class="control">
-                        <input class="input" type="text" readonly value="{{ solicitudp.cant_administracion* 500}} ">
-                    </div>
-                </div>
-
-                <h3 class="subtitle is-5">Cantidad de jardineros</h3>
-                <div class="field">
-                    <label class="label">Cantidad : {{ solicitudp.cant_jardineria}}</label>
-                </div>
-                <div class="field">
-                    <label class="label">Importe</label>
-                    <div class="control">
-                        <input class="input" type="text" readonly value="{{ solicitudp.cant_jardineria * 300}}">
-                    </div>
-                </div>
-
-                <h3 class="subtitle is-5">Importe total:</h3>
-                <div class="field">
-                    <label class="label">Importe total</label>
-                    <div class="control">
-                        <input class="input" type="text" name="importe_totalAdmin" readonly
-                            value="{{(solicitudp.cant_jardineria * 300)+(solicitudp.cant_administracion* 500)+(solicitudp.cant_plimpieza * 300)+(solicitudp.cant_vigilantes * 400)}}">
-                    </div>
-                </div>
-            </div>
-            {% elif solicitudp.id_servicio == 2 %}
-            <div class="formulario-cotizacion">
-                <h3 class="subtitle is-5">Cantidad de personal de limpieza</h3>
-                <div class="field">
-                    <label class="label">Cantidad : {{ solicitudp.cant_plimpieza}}</label>
-                </div>
-                <div class="field">
-                    <label class="label">Importe</label>
-                    <div class="control">
-                        <input class="input" type="text" readonly name="importe_totalLimpieza"
-                            value="{{ solicitudp.cant_plimpieza * 300}}">
-                    </div>
-                </div>
-            </div>
-            {% elif solicitudp.id_servicio == 3 %}
-            <div class="formulario-cotizacion">
-                <h3 class="subtitle is-5">Cantidad de jardineros</h3>
-                <div class="field">
-                    <label class="label">Cantidad : {{ solicitudp.cant_jardineria}}</label>
-                </div>
-                <div class="field">
-                    <label class="label">Importe</label>
-                    <div class="control">
-                        <input class="input" type="text" readonly name="importe_totalJardineria"
-                            value="{{ solicitudp.cant_jardineria * 300}}">
-                    </div>
-                </div>
-            </div>
-            {% elif solicitudp.id_servicio == 4 %}
-            <div class="formulario-cotizacion">
-                <h3 class="subtitle is-5">Cantidad de vigilantes</h3>
-                <div class="field">
-                    <label class="label">Cantidad : {{ solicitudp.cant_vigilantes}} </label>
-                </div>
-                <div class="field">
-                    <label class="label">Importe</label>
-                    <div class="control">
-                        <input class="input" type="text" readonly name="importe_totalVigilantes"
-                            value="{{ solicitudp.cant_vigilantes * 400}}">
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-
-            <!-- Botones de Aceptar y Rechazar -->
-            <div class="buttons button-container">
-                <form action="{{ url_for('cotizaciones.aceptar') }}" method="POST">
-                    <button type="submit" class="button is-link is-small" style="margin-right: 10px; margin-top: 10px;">
-                        <input type="hidden" name="aceptar__id_solicitud" value="{{ solicitudp.id_solicitud }}">
-                        <span class="material-icons">
-                            done
-                        </span>
-                        Aceptar
-                    </button>
-                </form>
-                <form action="{{ url_for('cotizaciones.rechazar') }}" method="POST">
-                    <button type="submit" class="button is-danger is-small"
-                        style="margin-left: 10px; margin-top: 10px;">
-                        <input type="hidden" name="rechazar__id_solicitud" value="{{ solicitudp.id_solicitud }}">
-                        <span class="material-icons">
-                            clear
-                        </span>
-                        Rechazar
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-{% endfor %}
 
 
 

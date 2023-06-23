@@ -69,6 +69,23 @@
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 30px;
+  background:var(--bg-active);
+  color: #fff;
+}
+
+.table.is-bordered {
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+}
+
+.table.is-bordered th,
+.table.is-bordered td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+.table.is-hoverable tbody tr:hover {
+  background-color: #555;
 }
 
 .tabla-cotizaciones th,
