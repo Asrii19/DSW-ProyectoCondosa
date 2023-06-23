@@ -35,5 +35,9 @@
 	line-height: 45px; /* Ajusta la altura verticalmente */
 	
   }
+  .tabla-icon{
+	max-width: 2rem;
+  	height: auto;
+  }
   
   

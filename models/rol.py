@@ -1,5 +1,4 @@
 from utils.db import db
-from utils.db import db
 
 class Rol(db.Model):
     id_rol = db.Column(db.Integer, primary_key=True)

@@ -10,10 +10,8 @@ from models.solicitudCotizacion import SolicitudCotizacion
 
 bp = Blueprint('solicitud_cotizacion', __name__, url_prefix="/solicitud") #al llamar el blue print en base sería (NomreBP.FuncionAsociadaARuta)
 
-@bp.route('/<id_solicitud>/<estado>', methods=['GET'])
-
-
-def cotizar(id_solicitud,estado):
+@bp.route('/<id_solicitud>', methods=['GET'])
+def cotizar(id_solicitud):
   
     solicitud = Solicitud.query.get(id_solicitud)
     solicitud_cotizacion = SolicitudCotizacion.query.get(id_solicitud)

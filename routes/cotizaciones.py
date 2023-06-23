@@ -4,8 +4,10 @@ from models.solicitud import Solicitud
 from models.predio import Predio
 from models.solicitante import Solicitante
 from models.personal import Personal
+from models.estado import Estado
 from models.servicio import Servicio  # Asegúrate de importar el modelo Servicio correctamente
 from utils.db import db
+from utils.id import formatear_id
 from datetime import datetime
 
 bp = Blueprint('cotizaciones', __name__, url_prefix="/cotizaciones")
@@ -23,6 +25,9 @@ def cotizaciones():
     cotizaciones_pendientes = [solicitud for solicitud in solicitudes if solicitud.id_solicitud not in solicitudes_con_cotizaciones_ids]
     cotizaciones_completadas = SolicitudCotizacion.query.all()
 
+    cotizaciones_pendientes = sorted(cotizaciones_pendientes, key=lambda solicitud: solicitud.id_solicitud)
+    cotizaciones_completadas = sorted(cotizaciones_completadas, key=lambda solicitud: solicitud.id_solicitud)
+
     predios = Predio.query.all()
     predios_dict = {predio.id_predio: predio.descripcion for predio in predios}
 
@@ -32,10 +37,22 @@ def cotizaciones():
     servicios = Servicio.query.all()
     servicios_dict = {servicio.id_servicio: servicio.descripcion for servicio in servicios}
 
+    personalAll = Personal.query.all()
+    personal_dict = {personal.id_personal: personal.nombre_completo for personal in personalAll}
+    
+    estados = Estado.query.all()
+    estado_dict = {estado.id_estado: estado.descripcion for estado in estados}
+
     for solicitudp in cotizaciones_pendientes:
+        solicitudp.id_solicitud = formatear_id(solicitudp.id_solicitud)
         solicitudp.descripcion_predio = predios_dict.get(solicitudp.id_predio)
         solicitudp.nombre_solicitante = solicitantes_dict.get(solicitudp.id_solicitante)
         solicitudp.descripcion_servicio = servicios_dict.get(solicitudp.id_servicio)  # Obtener la descripción del servicio
+    
+    for solicitudc in cotizaciones_completadas:
+        solicitudc.id_solicitud = formatear_id(solicitudc.id_solicitud)
+        solicitudc.nombre_personal = personal_dict.get(solicitudc.id_personal)
+        solicitudc.descripcion_estado = estado_dict.get(solicitudc.id_estado)
 
     return rt("cotizaciones.html", cotizaciones_pendientes=cotizaciones_pendientes, cotizaciones_completadas=cotizaciones_completadas)
 
@@ -47,6 +64,7 @@ def aceptar():
         id_solicitud = request.form.get('aceptar__id_solicitud')
         solicitud = Solicitud.query.get(id_solicitud)
         servicio = Servicio.query.get(solicitud.id_servicio)
+        estado = Estado.query.get(1)
         print("Aceptado: ",id_solicitud)
         #FECHA
         fecha_cotizacion = datetime.now().date()
@@ -75,7 +93,7 @@ def aceptar():
         elif(servicio.id_servicio==4):
             total_vig = solicitud.cant_vigilantes*pago["vig"]
             importe_total = total_vig
-        new_solicitud_cotizacion = SolicitudCotizacion(id_solicitud,id_personal,fecha_cotizacion,importe_total)
+        new_solicitud_cotizacion = SolicitudCotizacion(id_solicitud,id_personal,fecha_cotizacion,importe_total,estado.id_estado)
         db.session.add(new_solicitud_cotizacion) # agregación
         db.session.commit() # confirmación
         return redirect(url_for('cotizaciones.cotizaciones'))

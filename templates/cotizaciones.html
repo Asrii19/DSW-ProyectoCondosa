@@ -46,11 +46,9 @@
                         <td>{{ solicitudp.nombre_solicitante }}</td>
                         <td>{{ solicitudp.descripcion_servicio }}</td>
                         <td>
-                            <a href="{{ url_for('solicitud_cotizacion.cotizar', id_solicitud=solicitudp.id_solicitud, estado="
-                                Pendiente") }}" class="button" data-toggle="tooltip" title="Cotizar">
-                                <span class="material-icons">
-                                    monetization_on
-                                </span>
+                            <a href="{{ url_for('solicitud_cotizacion.cotizar', id_solicitud=solicitudp.id_solicitud) }}" 
+                            class="button" data-toggle="tooltip" title="Cotizar">
+                                <img class="tabla-icon" src=" {{ url_for('static',filename='img/moneda.png') }} ">
                             </a>
                         </td>
                     </tr>
@@ -64,10 +62,10 @@
             <table class="table is-bordered is-hoverable">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>ID Solicitud</th>
                         <th>Personal</th>
                         <th>Fecha</th>
-                        <th>Importe</th>
+                        <th>Importe (S/)</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
@@ -76,17 +74,15 @@
                     {% for cotizacion in cotizaciones_completadas %}
                     <tr>
                         <td>{{ cotizacion.id_solicitud }}</td>
-                        <td>{{ cotizacion.id_personal }}</td>
+                        <td>{{ cotizacion.nombre_personal }}</td>
                         <td>{{ cotizacion.fecha_cotizacion }}</td>
                         <td>{{ cotizacion.importe }}</td>
-                        <td>Completado</td>
+                        <td>{{ cotizacion.descripcion_estado}}</td>
                         <td>
                             <a href="{{ url_for('solicitud_cotizacion.cotizar', id_solicitud=cotizacion.id_solicitud, estado="
                                 Realizada") }}" class="button is-link is-small" data-toggle="tooltip"
                                 title="Ver Detalles">
-                                <span class="material-icons">
-                                    visibility
-                                </span>
+                                <img class="tabla-icon" src=" {{ url_for('static',filename='img/ojo.png') }} ">
                             </a>
                             <form class="btn_download" action="{{ url_for('boleta.generar_pdf') }}" method="POST">
                                 <button type="submit" class="button is-link is-small" data-toggle="tooltip"
