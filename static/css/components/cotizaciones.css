@@ -47,13 +47,14 @@
 }
 
 /* Estilos para las pestañas */
-
 .option {
-  display: flex;
   text-align: center;
   line-height: 50px;
   border: solid 1px rgba(4, 51, 78, 0.6);
   cursor: pointer;
+  width: 250px; /* Establece el ancho deseado */
+  justify-content: center;
+  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
 }
 
 .option-active {
@@ -62,37 +63,6 @@
   border-bottom-color: white !important;
   color: #fff !important;
 }
-
-/* Estilos para la tabla */
-.table{
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 30px;
-  background:var(--bg-active);
-  color: #fff;
-}
-
-.table.is-bordered {
-  border-collapse: collapse;
-  border: 1px solid #ccc;
-}
-
-.table.is-bordered th,
-.table.is-bordered td {
-  border: 1px solid #ccc;
-  padding: 8px;
-}
-
-.table.is-hoverable tbody tr:hover {
-  background-color: #555;
-}
-
-.tabla-cotizaciones th,
-.tabla-cotizaciones td {
-  text-align: center !important;
-}
-
 
 .tabs {
   display: flex;
@@ -112,9 +82,54 @@
 
 #pendientes-tab,
 #completadas-tab {
-  border-bottom-color: #444;
+  border-bottom-color: #000;
   color: #fff;
+  transition: border-color 0.3s ease-in-out;
 }
 
-
-
+/* Estilos para la tabla */
+.table {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  background: var(--bg-active);
+  color: #fff;
+  border-collapse: collapse;
+  border: 1px solid #555;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.3s ease-in-out;
+  animation: tableFadeIn 0.5s ease-in-out;
+  }
+  
+  @keyframes tableFadeIn {
+  from {
+  opacity: 0;
+  transform: translateY(-20px);
+  }
+  to {
+  opacity: 1;
+  transform: translateY(0);
+  }
+  }
+  
+  .table th,
+  .table td {
+  border: 1px solid #555;
+  padding: 8px;
+  transition: background-color 0.3s ease-in-out;
+  }
+  
+  .table tbody tr:hover {
+  background-color: #444;
+  }
+  
+  .tabla-cotizaciones th,
+  .tabla-cotizaciones td {
+  text-align: center !important;
+  }
+  
+  .table-container {
+  overflow-x: auto;
+  }

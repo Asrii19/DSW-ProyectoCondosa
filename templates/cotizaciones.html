@@ -16,14 +16,14 @@
         <!-- Pestañas -->
 
         <div class="tabs">
-            
+            <ul>
                 <li class="option option-active" id="pendientes-tab" onclick="mostrarTabla('pendientes')">
                      Cotizaciones Pendientes
                 </li>
                 <li class="option" id="completadas-tab" onclick="mostrarTabla('completadas')" >
                     Cotizaciones Completadas
                 </li>
-            
+            </ul>
         </div>
 
         <!-- Tabla de Cotizaciones Pendientes -->
@@ -47,17 +47,11 @@
                         <td>{{ solicitudp.descripcion_servicio }}</td>
                         <td>
                             <a href="{{ url_for('solicitud_cotizacion.cotizar', id_solicitud=solicitudp.id_solicitud, estado="
-                                Pendiente") }}" class="button is-link is-small" data-toggle="tooltip" title="Cotizar">
+                                Pendiente") }}" class="button" data-toggle="tooltip" title="Cotizar">
                                 <span class="material-icons">
                                     monetization_on
                                 </span>
                             </a>
-                            <button id="btnno" class="button is-link is-small" data-toggle="tooltip" title="Cotizar"
-                                onclick="mostrarPopup('popup-{{ solicitudp.id_solicitud }}')">
-                                <span class="material-icons">
-                                    monetization_on
-                                </span>
-                            </button>
                         </td>
                     </tr>
                     {% endfor %}
