@@ -13,6 +13,11 @@ class Solicitud(db.Model):
     cant_plimpieza = db.Column(db.Integer)
     cant_administracion = db.Column(db.Integer)
     cant_jardineria = db.Column(db.Integer)
+
+    predio = db.relationship('Predio', backref='solicitud')
+    solicitante = db.relationship('Solicitante', backref='solicitud')
+    servicio = db.relationship('Servicio', backref='solicitud')
+
     def __init__(self, id_solicitud, id_predio, id_solicitante, id_servicio, area_predio,
                  num_casas, cant_acomunes, area_acomunes, cant_vigilantes, cant_plimpieza,cant_administracion,
                  cant_jardineria):

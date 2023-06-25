@@ -6,6 +6,10 @@ class SolicitudCotizacion(db.Model):
     fecha_cotizacion = db.Column(db.Date)
     importe = db.Column(db.DECIMAL(6, 2))
     id_estado = db.Column(db.Integer, db.ForeignKey('estado.id_estado'))
+
+    personal = db.relationship('Personal', backref='solicitudCotizacion')
+    estado = db.relationship('Estado', backref='solicitudCotizacion')
+
     def __init__(self, id_solicitud, id_personal, fecha_cotizacion, importe,id_estado):
         self.id_solicitud = id_solicitud
         self.id_personal = id_personal

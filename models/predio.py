@@ -9,6 +9,8 @@ class Predio(db.Model):
     correo = db.Column(db.String(255))
     direccion = db.Column(db.String(255))
 
+    tipo_predio = db.relationship('TipoPredio', backref='predio')
+
     def __init__(self, id_predio, id_tipo_predio, descripcion, ruc, telefono, correo, direccion):
         self.id_predio = id_predio
         self.id_tipo_predio = id_tipo_predio

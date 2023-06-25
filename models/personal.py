@@ -8,6 +8,7 @@ class Personal(db.Model):
     fecha_cese = db.Column(db.Date)
 
     persona = db.relationship('Persona', backref='personal')
+    rol = db.relationship('Rol', backref='personal')
 
     def __init__(self, id_personal, id_persona, id_rol, fecha_contrato, fecha_cese):
         self.id_personal = id_personal

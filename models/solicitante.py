@@ -8,6 +8,7 @@ class Solicitante(db.Model):
     correo = db.Column(db.String(30))
 
     persona = db.relationship('Persona', backref='solicitante')
+    rol = db.relationship('Rol', backref='solicitante')
 
     def __init__(self, id_solicitante, id_persona, id_rol, telefono, correo):
         self.id_solicitante = id_solicitante

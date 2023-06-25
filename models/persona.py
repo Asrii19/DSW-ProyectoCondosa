@@ -1,4 +1,5 @@
 from utils.db import db
+
 class Persona(db.Model):
     id_persona = db.Column(db.Integer, primary_key=True)
     apellido_paterno = db.Column(db.String(60))
@@ -9,6 +10,9 @@ class Persona(db.Model):
     ndocumento = db.Column(db.String(15))
     direccion = db.Column(db.String(150))
     idubigeo = db.Column(db.String(6), db.ForeignKey('ubigeo.idubigeo'))
+
+    tipo_documento = db.relationship('TipoDocumento', backref='persona')
+    ubigeo = db.relationship('Ubigeo', backref='persona')
 
     def __init__(self, id_persona, apellido_paterno, apellido_materno, nombres, fecha_nacimiento,
                  id_tipo_documento, ndocumento, direccion, id_ubigeo):
