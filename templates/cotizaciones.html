@@ -41,10 +41,10 @@
                 <tbody>
                     {% for solicitudp in cotizaciones_pendientes %}
                     <tr>
-                        <td>{{ solicitudp.id_solicitud }}</td>
-                        <td>{{ solicitudp.descripcion_predio }}</td>
-                        <td>{{ solicitudp.nombre_solicitante }}</td>
-                        <td>{{ solicitudp.descripcion_servicio }}</td>
+                        <td>{{ formatear_id(solicitudp.id_solicitud) }}</td>
+                        <td>{{ solicitudp.predio.descripcion }}</td>
+                        <td>{{ solicitudp.solicitante.persona.nombre_completo }}</td>
+                        <td>{{ solicitudp.servicio.descripcion }}</td>
                         <td>
                             <a href="{{ url_for('solicitud_cotizacion.cotizar', id_solicitud=solicitudp.id_solicitud) }}" 
                             class="button" data-toggle="tooltip" title="Cotizar">
@@ -73,11 +73,11 @@
                 <tbody>
                     {% for cotizacion in cotizaciones_completadas %}
                     <tr>
-                        <td>{{ cotizacion.id_solicitud }}</td>
-                        <td>{{ cotizacion.nombre_personal }}</td>
+                        <td>{{ formatear_id(cotizacion.id_solicitud) }}</td>
+                        <td>{{ cotizacion.personal.persona.nombre_completo }}</td>
                         <td>{{ cotizacion.fecha_cotizacion }}</td>
                         <td>{{ cotizacion.importe }}</td>
-                        <td>{{ cotizacion.descripcion_estado}}</td>
+                        <td>{{ cotizacion.estado.descripcion}}</td>
                         <td>
                             <a href="{{ url_for('solicitud_cotizacion.cotizar', id_solicitud=cotizacion.id_solicitud, estado="
                                 Realizada") }}" class="button is-link is-small" data-toggle="tooltip"

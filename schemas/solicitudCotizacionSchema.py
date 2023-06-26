@@ -1,6 +1,7 @@
 from marshmallow import Schema, fields
 from schemas.personalSchema import PersonalSchema
 from schemas.estadoSchema import EstadoSchema
+from schemas.solicitudSchema import SolicitudSchema
 
 class SolicitudCotizacionSchema(Schema):
     id_solicitud = fields.Integer()
@@ -9,5 +10,6 @@ class SolicitudCotizacionSchema(Schema):
     importe = fields.Decimal()
     id_estado = fields.Integer()
 
+    solicitud = fields.Nested(SolicitudSchema)
     personal = fields.Nested(PersonalSchema)
     estado = fields.Nested(EstadoSchema)

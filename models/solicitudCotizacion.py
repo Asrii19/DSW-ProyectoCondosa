@@ -1,12 +1,14 @@
 from utils.db import db
 
 class SolicitudCotizacion(db.Model):
-    id_solicitud = db.Column(db.Integer, primary_key=True)
+    id_solicitud = db.Column(db.Integer, db.ForeignKey('solicitud.id_solicitud'))
     id_personal = db.Column(db.Integer, db.ForeignKey('personal.id_personal'))
     fecha_cotizacion = db.Column(db.Date)
     importe = db.Column(db.DECIMAL(6, 2))
+    id_solicitud_cotizacion = db.Column(db.Integer, primary_key=True)
     id_estado = db.Column(db.Integer, db.ForeignKey('estado.id_estado'))
 
+    solicitud = db.relationship('Solicitud', backref='solicitudCotizacion')
     personal = db.relationship('Personal', backref='solicitudCotizacion')
     estado = db.relationship('Estado', backref='solicitudCotizacion')
 

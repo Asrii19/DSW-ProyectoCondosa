@@ -16,10 +16,3 @@ class Personal(db.Model):
         self.id_rol = id_rol
         self.fecha_contrato = fecha_contrato
         self.fecha_cese = fecha_cese
-
-    @property
-    def nombre_completo(self):
-        if self.persona:
-            return f"{self.persona.apellido_paterno} {self.persona.apellido_materno} {self.persona.nombres}"
-        else:
-            return "N/A"

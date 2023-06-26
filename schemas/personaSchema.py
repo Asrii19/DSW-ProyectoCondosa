@@ -15,3 +15,9 @@ class PersonaSchema(Schema):
 
     tipo_documento = fields.Nested(TipoDocumentoSchema)
     ubigeo = fields.Nested(UbigeoSchema)
+
+    #extra
+    nombre_completo = fields.Method('get_nombre_completo')
+
+    def get_nombre_completo(self, obj):
+        return obj.apellido_paterno + ' ' + obj.apellido_materno + ' ' + obj.nombres
