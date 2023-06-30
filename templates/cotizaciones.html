@@ -64,6 +64,7 @@
                     <tr>
                         <th>ID Solicitud</th>
                         <th>Personal</th>
+                        <th>Servicio</th>
                         <th>Fecha</th>
                         <th>Importe (S/)</th>
                         <th>Estado</th>
@@ -75,6 +76,7 @@
                     <tr>
                         <td>{{ formatear_id(cotizacion.id_solicitud) }}</td>
                         <td>{{ cotizacion.personal.persona.nombre_completo }}</td>
+                        <td>{{ cotizacion.solicitud.servicio.descripcion }}</td>
                         <td>{{ cotizacion.fecha_cotizacion }}</td>
                         <td>{{ cotizacion.importe }}</td>
                         <td>{{ cotizacion.estado.descripcion}}</td>

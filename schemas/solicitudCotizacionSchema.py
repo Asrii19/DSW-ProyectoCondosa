@@ -8,6 +8,7 @@ class SolicitudCotizacionSchema(Schema):
     id_personal = fields.Integer()
     fecha_cotizacion = fields.Date()
     importe = fields.Decimal()
+    id_solicitud_cotizacion = fields.Integer()
     id_estado = fields.Integer()
 
     solicitud = fields.Nested(SolicitudSchema)

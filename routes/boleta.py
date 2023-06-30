@@ -6,15 +6,10 @@ from reportlab.platypus import Table, TableStyle
 from reportlab.pdfgen import canvas
 from flask import make_response, request
 from utils.id import formatear_id
+from utils.defaultCantidades import defaultCantidad
 
-from models.solicitud import Solicitud
-from models.solicitante import Solicitante
-from models.persona import Persona
-from models.rol import Rol
-from models.predio import Predio
-from models.tipoPredio import TipoPredio
-from models.servicio import Servicio
 from models.solicitudCotizacion import SolicitudCotizacion
+from schemas.solicitudCotizacionSchema import SolicitudCotizacionSchema
 
 bp = Blueprint('boleta', __name__, url_prefix="/boleta") #al llamar el blue print en base sería (NomreBP.FuncionAsociadaARuta)
 
@@ -27,7 +22,6 @@ def generar_pdf():
     id_solicitud = request.form.get('descargar__id_solicitud')
 
     titulo = f"Cotizacion - {formatear_id(id_solicitud)}"
-
     pdf.setTitle(titulo)
 
     dibujar_encabezado(pdf,50,600)
@@ -63,7 +57,8 @@ def dibujar_body(pdf,id_solicitud,posicionx,posiciony):
     data = obtener_data(id_solicitud)
     generar_titulo(pdf,data,posicionx+50,posiciony) #Título en posicion 100, 740
     generar_infoSolicitante(pdf,data,posicionx,posiciony-60)
-    generar_tabla(pdf,data,posicionx,posiciony-160)
+    generar_infoServicios(pdf,data,posicionx,posiciony-170)
+    generar_tabla(pdf,data,posicionx,posiciony-250)
 
 def generar_titulo(pdf,data,xtitulo,ytitulo):
     #titulo en sí -> 100,740
@@ -73,103 +68,96 @@ def generar_titulo(pdf,data,xtitulo,ytitulo):
     pdf.setFont("Helvetica", 10)
     pdf.drawString(xtitulo, ytitulo-15, f"Id-Solicitud: {formatear_id(data['id_solicitud'])}")
     #fecha -> 400, 725
-    pdf.drawString(xtitulo+250, ytitulo-15, f"Fecha: {data['fecha']}")
+    pdf.drawString(xtitulo+250, ytitulo-15, f"Fecha: {data['fecha_cotizacion']}")
 
 def generar_infoSolicitante(pdf,data,posix,posiy):
     # Obtener datos del solicitante
-    nombre = data["nombres_apellido"]
-    nro_documento = data["ndocumento"]
-    predio = data["nombre_predio"]
-    ruc = data["ruc_predio"]
-    cargo = data["rol"]
-    correo = data["correo"]
-    telefono = data["telefono"]
+    nombre = data["solicitud"]["solicitante"]["persona"]["nombre_completo"]
+    nro_documento = data["solicitud"]["solicitante"]["persona"]["ndocumento"]
+    rol = data["solicitud"]["solicitante"]["rol"]["descripcion"]
+    correo = data["solicitud"]["solicitante"]["correo"]
+    telefono = data["solicitud"]["solicitante"]["telefono"]
     
-    pdf.setFont("Helvetica-BoldOblique", 10)
+    # Obtener datos de su predio
+    predio = data["solicitud"]["predio"]["descripcion"]
+    ruc = data["solicitud"]["predio"]["ruc"]
+    tipo_predio = data["solicitud"]["predio"]["tipo_predio"]["nomre_predio"]
+
+    # Combinacion
+    nombreRol = nombre + "   -   "+rol
+    if '\n' in nombreRol: nombreRol = nombreRol.replace('\n','') #me dieron data con saltos de linea (no pertenece a mi CUS)
+
+    pdf.setFont("Helvetica-BoldOblique", 12)
     pdf.drawString(posix, posiy+15, "Solicitante")
     pdf.setFont("Helvetica", 11)
     pdf.drawString(posix, posiy, "Nombre:")
     pdf.drawString(posix, posiy-20, "Nro documento:")
     pdf.drawString(posix, posiy-40, "Predio:")
-    pdf.drawString(posix, posiy-60, "R.U.C.:")
-    pdf.drawString(posix+200, posiy, "Rol:")
+    pdf.drawString(posix, posiy-60, "Tipo predio:")
     pdf.drawString(posix+200, posiy-20, "Correo:")
     pdf.drawString(posix+200, posiy-40, "Telefono:")
-    pdf.setFillColor(colors.black)  # Restablecer color negro para los siguientes textos
-    pdf.drawString(posix+70, posiy, nombre)
+    pdf.drawString(posix+200, posiy-60, "R.U.C.:")
+    
+    pdf.drawString(posix+90, posiy, nombreRol)
     pdf.drawString(posix+90, posiy-20, nro_documento) 
-    pdf.drawString(posix+70, posiy-40, predio)
-    pdf.drawString(posix+70, posiy-60, ruc)
-    pdf.drawString(posix+270, posiy, cargo)
+    pdf.drawString(posix+90, posiy-40, predio)
+    pdf.drawString(posix+90, posiy-60, tipo_predio)
     pdf.drawString(posix+270, posiy-20, correo)
     pdf.drawString(posix+270, posiy-40, str(telefono))
+    pdf.drawString(posix+270, posiy-60, ruc)
+
+def generar_infoServicios(pdf,data,posix,posiy):
+    tipo_servicio = data["solicitud"]["servicio"]["descripcion"]
+    cant_administradores = defaultCantidad(data["solicitud"]["cant_administracion"])
+    cant_plimpieza = defaultCantidad(data["solicitud"]["cant_plimpieza"])
+    cant_jardineros = defaultCantidad(data["solicitud"]["cant_jardineria"])
+    cant_vigilantes = defaultCantidad(data["solicitud"]["cant_vigilantes"])
+
+    pdf.setFont("Helvetica-BoldOblique", 12)
+    pdf.drawString(posix, posiy+15, "Servicios")
+    pdf.setFont("Helvetica", 11)
+    pdf.drawString(posix, posiy, "Tipo de servicio:")
+    pdf.drawString(posix+90, posiy, tipo_servicio)
+    
+    pdf.drawString(posix, posiy-20, "Cantidad de administradores:")
+    pdf.drawString(posix+150, posiy-20, str(cant_administradores))
+
+    pdf.drawString(posix+200, posiy-20, "Cantidad de plimpieza:")
+    pdf.drawString(posix+350, posiy-20, str(cant_plimpieza))
+
+    pdf.drawString(posix, posiy-40, "Cantidad de jardineros:")
+    pdf.drawString(posix+150, posiy-40, str(cant_jardineros))
+
+    pdf.drawString(posix+200, posiy-40, "Cantidad de vigilantes:")
+    pdf.drawString(posix+350, posiy-40, str(cant_vigilantes))
+
 
 #generar tabla del body
 def generar_tabla(pdf,data,posix,posiy):
-    administracion =False
-    # Tus cuatro listas con valores unitarios
-    lista1 = [data["id_servicio"]]
-    lista2 = [data["tipo_servicio"]]
-    if data["id_servicio"] == 1:
-        data["cantidad_total"]=data["cant_administracion"]
-        data["importe_total"]=data["importe_administracion"]*data["cantidad_total"]
-        administracion=True
-    elif(data["id_servicio"]==2):
-        data["cantidad_total"]=data["cant_plimpieza"]
-        data["importe_total"]=data["importe_plimpieza"]*data["cantidad_total"]
-    elif(data["id_servicio"]==3):
-        data["cantidad_total"]=data["cant_jardineria"]
-        data["importe_total"]=data["importe_jardineria"]*data["cantidad_total"]
-    elif(data["id_servicio"]==4):
-        data["cantidad_total"]=data["cant_vigilantes"]
-        data["importe_total"]=data["importe_vigilantes"]*data["cantidad_total"]
+    importe = data["importe"]
 
-    lista3 = [data["cantidad_total"]]
-    lista4 = [data["importe_total"]]
-    
-    if administracion:
-        if(data["cant_plimpieza"]!=0):
-            lista1.append("2")
-            lista2.append("Limpieza")
-            lista3.append(data["cant_plimpieza"])
-            lista4.append(data["importe_plimpieza"]*data["cant_plimpieza"])
-        if(data["cant_jardineria"]!=0):
-            lista1.append("3")
-            lista2.append("Jardinería")
-            lista3.append(data["cant_jardineria"])
-            lista4.append(data["importe_jardineria"]*data["cant_jardineria"])
-        if(data["cant_vigilantes"]!=0):
-            lista1.append("4")
-            lista2.append("Vigilancia")
-            lista3.append(data["cant_vigilantes"])
-            lista4.append(data["importe_vigilantes"]*data["cant_vigilantes"])
-    
-    # Combina las listas utilizando zip()
-    data = zip(lista1, lista2, lista3, lista4)
     # Construye la estructura de datos para la tabla
     table_data = [
-        ['Nro Servicio', 'Descripción', 'Cantidad', 'Monto (S/)'],  # Nombres de las columnas
+        ['Descripción','Monto (S/)'],  # Nombres de las columnas
     ]
-    # Agrega las filas de datos a la estructura de la tabla
-    for row in data:
-        table_data.append(list(row))
 
-    table_data.append(["","","Monto Neto",round(sum(lista4)*100/118,2)])
-    table_data.append(["","","IGV (18%)",round(sum(lista4)*(100/118)*(18/100),2)])
-    table_data.append(["","","Monto Total",sum(lista4)])
+    table_data.append(["Monto Neto",round(float(importe)*100/118,2)])
+    table_data.append(["IGV (18%)",round(float(importe)*(100/118)*(18/100),2)])
+    table_data.append(["Monto Total",importe])
     color_azul = ((4/255, 26/255, 47/255))
     color_azulclaro = ((215/255, 235/255, 255/255))
     table = Table(table_data, colWidths=100, rowHeights=30)
     estilo_tabla = TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), color_azul),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
         ('FONTSIZE', (0, 0), (-1, 0), 14),
-        ('GRID', (0, 0), (-1, -4), 1, colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
         ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
         ('FONTSIZE', (0, 1), (-1, -1), 11),
+        ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
     ])
     # Alternar colores de fondo para filas
     for i in range(1, len(table_data)):
@@ -177,67 +165,12 @@ def generar_tabla(pdf,data,posix,posiy):
             estilo_tabla.add('BACKGROUND', (0, i), (-1, i), colors.white)
         else:
             estilo_tabla.add('BACKGROUND', (0, i), (-1, i), color_azulclaro)
-    # Negrita en el total
-    for i in range(1, len(table_data)):
-        if i >= len(table_data)-3:
-            estilo_tabla.add('BACKGROUND', (0, i), (-3, i), colors.white),
-            estilo_tabla.add('GRID', (0, i), (-3, i), 0, colors.white),
-            estilo_tabla.add('GRID', (2, i), (-1, -1), 1, colors.black),
-        if i == len(table_data)-3:
-            estilo_tabla.add('GRID', (0, i-1), (-3, i-1), 1, colors.black),
-    # Negrita en el total
-    for i in range(1, len(table_data)):
-        if i >= len(table_data)-3:
-            estilo_tabla.add('FONTNAME', (2, i), (-2, i), 'Helvetica-Bold'),
+    
     table.setStyle(estilo_tabla)
     table.wrapOn(pdf, 400, 500)
-    pdf.setFont("Helvetica-BoldOblique", 10)
+    pdf.setFont("Helvetica-BoldOblique", 12)
     pdf.drawString(posix, posiy+5, "Cotización")
-    table.drawOn(pdf, posix, posiy-table._height)
-
-#obtener la data para imprimirla
-def obtener_data(id_solicitud):
-    solicitud = Solicitud.query.get(id_solicitud)
-    solicitante = Solicitante.query.get(solicitud.id_solicitante)
-    persona = Persona.query.get(solicitante.id_persona)
-    rol = Rol.query.get(solicitante.id_rol)
-    predio = Predio.query.get(solicitud.id_predio)
-    tipo_predio = TipoPredio.query.get(predio.id_tipo_predio)
-    servicio = Servicio.query.get(solicitud.id_servicio)
-    solicitud_cotizacion = SolicitudCotizacion.query.get(solicitud.id_solicitud)
-
-    data = {
-        "id_solicitud": solicitud.id_solicitud,
-        "id_solicitante": solicitud.id_solicitante,
-        "id_predio": solicitud.id_predio,
-        "id_servicio": solicitud.id_servicio,
-        "id_persona": solicitante.id_persona,
-        "id_tipo_predio": predio.id_tipo_predio,
-        #informacion personal
-        "nombres_apellido": persona.nombres + " " + persona.apellido_paterno,
-        "ndocumento": persona.ndocumento,
-        "rol": rol.descripcion,
-        "correo": solicitante.correo,
-        "telefono": solicitante.telefono,
-        #informacion del predio
-        "nombre_predio": predio.descripcion,
-        "direccion_predio": predio.direccion,
-        "tipo_predio": tipo_predio.nomre_predio,
-        "ruc_predio": predio.ruc,
-        #informacion de los servicios
-        "tipo_servicio": servicio.descripcion,
-        "cant_administracion": solicitud.cant_administracion,
-        "cant_plimpieza": solicitud.cant_plimpieza,
-        "cant_jardineria": solicitud.cant_jardineria,
-        "cant_vigilantes": solicitud.cant_vigilantes,
-        "importe_administracion": 500,
-        "importe_plimpieza" : 300,
-        "importe_jardineria": 300,
-        "importe_vigilantes": 400,
-        "cantidad_total": 0,
-        "fecha": solicitud_cotizacion.fecha_cotizacion,
-    }
-    return data
+    table.drawOn(pdf, posix+100, posiy-table._height-5)
 
 # FOOTER
 def dibujar_footer(pdf,x_footer,y_footer):
@@ -251,3 +184,9 @@ def dibujar_footer(pdf,x_footer,y_footer):
     pdf.line(x_linea, y_linea, pdf._pagesize[0] - x_linea, y_linea)  # dibujar línea horizontal
     # Agregar texto al lienzo
     pdf.drawString(x_footer, y_footer, "\u00A9 2023 CONDOSA. Todos los derechos reservados.")
+
+# Obtener la data para imprimirla
+def obtener_data(id_solicitud):
+    solicitud= SolicitudCotizacion.query.filter_by(id_solicitud=id_solicitud).first()
+    solicitud_serializada = SolicitudCotizacionSchema(many=False).dump(solicitud)
+    return solicitud_serializada

@@ -4,7 +4,6 @@ from models.solicitud import Solicitud
 from schemas.solicitudSchema import SolicitudSchema
 from schemas.solicitudCotizacionSchema import SolicitudCotizacionSchema
 from models.estado import Estado
-from models.servicio import Servicio  # Asegúrate de importar el modelo Servicio correctamente
 from utils.db import db
 from utils.id import formatear_id
 from datetime import datetime
